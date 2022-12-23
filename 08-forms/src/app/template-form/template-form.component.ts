@@ -21,8 +21,6 @@ export class TemplateFormComponent implements OnInit {
 
   onSubmit(form: any): void {
     console.log('formulario ', form)
-
-    console.log('usuario', this.usuario)
-
+    
   }
 }

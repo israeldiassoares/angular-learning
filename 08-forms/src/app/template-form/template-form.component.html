@@ -11,15 +11,23 @@
         <input
             type="text"
             name="nome"
-            class="form-control"
+            class="form-control "
             placeholder="Nome"
             aria-label="nome"
             aria-describedby="basic-addon1"
             id="nome"
             [(ngModel)]="usuario.nome"
             required
-            #nome
+            #nome="ngModel"
+            [class.is-invalid]="!nome.valid && nome.touched"
         >
+        <div
+            *ngIf="!nome.valid && nome.touched"
+            class="alert alert-danger"
+            role="alert"
+        >
+            Nome é obrigatório.
+        </div>
         <!-- <div>
             {{nome.className}}
         </div> -->
@@ -46,8 +54,17 @@
                 [(ngModel)]='usuario.email'
                 required
                 email
+                #email="ngModel"
+                [class.is-invalid]="!email.valid && email.touched"
             >
         </div>
+        <div
+        *ngIf="!email.valid && email.touched"
+        class="alert alert-danger"
+        role="alert"
+    >
+        Email é obrigatório.
+    </div>
     </div>
     <button
         type="submit"
