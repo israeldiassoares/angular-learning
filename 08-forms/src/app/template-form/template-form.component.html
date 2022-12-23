@@ -1,0 +1,56 @@
+<!-- Criando variavel local para indicar que o angular deve ajudar a gerenciar esse formulário. Usando a variavel # o formulario será referenciado como todo-->
+<form
+    #f='ngForm'
+    (ngSubmit)="onSubmit(f)"
+>
+    <div class="form-group">
+        <label
+            for="nome"
+            class="form-label"
+        >Nome</label>
+        <input
+            type="text"
+            name="nome"
+            class="form-control"
+            placeholder="Nome"
+            aria-label="nome"
+            aria-describedby="basic-addon1"
+            id="nome"
+            [(ngModel)]="usuario.nome"
+            required
+            #nome
+        >
+        <!-- <div>
+            {{nome.className}}
+        </div> -->
+    </div>
+    <div class="form-group">
+        <label
+            for="email"
+            class="form-label"
+        >Email</label>
+        <div class="input-group mb-3">
+            <span
+                class="input-group-text"
+                id="basic-addon2"
+            >@</span>
+            <input
+                type="email"
+                name="email"
+                class="form-control"
+                placeholder="Email"
+                aria-label="email"
+                aria-describedby="basic-addon1"
+                id="email"
+                placeholder="nome@email.com"
+                [(ngModel)]='usuario.email'
+                required
+                email
+            >
+        </div>
+    </div>
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >Submit</button>
+</form>
