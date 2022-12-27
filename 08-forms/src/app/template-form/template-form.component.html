@@ -59,15 +59,17 @@
             >
         </div>
         <div
-        *ngIf="!email.valid && email.touched"
-        class="alert alert-danger"
-        role="alert"
-    >
-        Email é obrigatório.
-    </div>
+            *ngIf="!email.valid && email.touched"
+            class="alert alert-danger"
+            role="alert"
+        >
+            Email é obrigatório.
+        </div>
     </div>
     <button
         type="submit"
         class="btn btn-primary"
+        [disabled]="!f.valid"
     >Submit</button>
+    <app-form-debug [form]="f"></app-form-debug>
 </form>
