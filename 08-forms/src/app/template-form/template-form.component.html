@@ -22,15 +22,12 @@
                 [(ngModel)]="usuario.nome"
                 required
                 #nome="ngModel"
-                [class.is-invalid]="!nome.valid && nome.touched"
+                [ngClass]="aplicaCssErro(nome)"
             >
-            <div
-                *ngIf="!nome.valid && nome.touched"
-                class="alert alert-danger"
-                role="alert"
-            >
-                Nome é obrigatório.
-            </div>
+            <app-campo-control-erro
+                [mostrarErro]="verificaValidTouched(nome)"
+                mensagemErro="Nome é obrigatório"
+            ></app-campo-control-erro>
         </div>
 
         <!-- <div>
@@ -64,182 +61,163 @@
                     required
                     email
                     #email="ngModel"
-                    [class.is-invalid]="!email.valid && email.touched"
+                    [ngClass]="aplicaCssErro(email)"
                 >
             </div>
-            <div
-                *ngIf="!email.valid && email.touched"
-                class="alert alert-danger"
-                role="alert"
-            >
-                Email é obrigatório.
-            </div>
+            <app-campo-control-erro
+                [mostrarErro]="verificaValidTouched(email)"
+                mensagemErro="Email é obrigatório"
+            ></app-campo-control-erro>
         </div>
     </div>
-    <div class="form-group row">
-        <div class="col-sm-3">
-            <label
-                for="cep"
-                class="control-label"
-            >CEP</label>
-            <input
-                type="text"
-                class="form-control"
-                [class.is-invalid]="!cep.valid && cep.touched"
-                id="cep"
-                name="cep"
-                ngModel
-                required
-                #cep="ngModel"
-            >
-            <div
-                *ngIf="!cep.valid && cep.touched"
-                class="alert alert-danger"
-                role="alert"
-            >
-                CEP é obrigatório.
+    <div ngModelGroup="endereco">
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <label
+                    for="cep"
+                    class="control-label"
+                >CEP</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="cep"
+                    name="cep"
+                    ngModel
+                    required
+                    #cep="ngModel"
+                    [ngClass]="aplicaCssErro(cep)"
+                    (blur)="consultaCEP(cep.value, f)"
+                >
+                <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(cep)"
+                    mensagemErro="Cep é obrigatório"
+                ></app-campo-control-erro>
+            </div>
+
+            <div class="col-sm-3">
+                <label
+                    for="numero"
+                    class="control-label"
+                >Número</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="numero"
+                    name="numero"
+                    ngModel
+                    required
+                    #numero="ngModel"
+                    [ngClass]="aplicaCssErro(numero)"
+                >
+                <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(numero)"
+                    mensagemErro="Número é obrigatório"
+                ></app-campo-control-erro>
+            </div>
+
+            <div class="col-sm-6">
+                <label
+                    for="complemento"
+                    class="control-label"
+                >Complemento</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="complemento"
+                    name="complemento"
+                    ngModel
+                    required
+                    #complemento="ngModel"
+                >
             </div>
         </div>
-
-        <div class="col-sm-3">
-            <label
-                for="numero"
-                class="control-label"
-            >Número</label>
-            <input
-                type="text"
-                class="form-control"
-                [class.is-invalid]="!numero.valid && numero.touched"
-                id="numero"
-                name="numero"
-                ngModel
-                required
-                #numero="ngModel"
-            >
-            <div
-                *ngIf="!numero.valid && numero.touched"
-                class="alert alert-danger"
-                role="alert"
-            >
-                Número é obrigatório.
+        <div class="form-group row">
+            <div class="col-md-12">
+                <label
+                    for="rua"
+                    class="control-label"
+                >Rua</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [class.is-invalid]="!rua.valid && rua.touched"
+                    id="rua"
+                    name="rua"
+                    ngModel
+                    required
+                    #rua="ngModel"
+                >
+                <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(rua)"
+                    mensagemErro="Rua é obrigatório"
+                ></app-campo-control-erro>
             </div>
         </div>
-
-        <div class="col-sm-6">
-            <label
-                for="complemento"
-                class="control-label"
-            >Complemento</label>
-            <input
-                type="text"
-                class="form-control"
-                id="complemento"
-                name="complemento"
-                ngModel
-                required
-                #complemento="ngModel"
-            >
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-md-12">
-            <label
-                for="rua"
-                class="control-label"
-            >Rua</label>
-            <input
-                type="text"
-                class="form-control"
-                [class.is-invalid]="!rua.valid && rua.touched"
-                id="rua"
-                name="rua"
-                ngModel
-                required
-                #rua="ngModel"
-            >
-            <div
-                *ngIf="!rua.valid && rua.touched"
-                class="alert alert-danger"
-                role="alert"
-            >
-                Rua é obrigatório.
+        <div class="form-group row">
+            <div class="col-sm-5">
+                <label
+                    for="bairro"
+                    class="control-label"
+                >Bairro</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="bairro"
+                    name="bairro"
+                    ngModel
+                    required
+                    #bairro="ngModel"
+                    readonly
+                    [ngClass]="aplicaCssErro(bairro)"
+                >
+                <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(bairro)"
+                    mensagemErro="Bairro é obrigatório"
+                ></app-campo-control-erro>
             </div>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-5">
-            <label
-                for="bairro"
-                class="control-label"
-            >Bairro</label>
-            <input
-                type="text"
-                class="form-control"
-                [class.is-invalid]="!bairro.valid && bairro.touched"
-                id="bairro"
-                name="bairro"
-                ngModel
-                required
-                #bairro="ngModel"
-                readonly
-            >
-            <div
-                *ngIf="!bairro.valid && bairro.touched"
-                class="alert alert-danger"
-                role="alert"
 
-            >
-                Bairro é obrigatório.
+            <div class="col-sm-4">
+                <label
+                    for="cidade"
+                    class="control-label"
+                >Cidade</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="cidade"
+                    name="cidade"
+                    ngModel
+                    required
+                    #cidade="ngModel"
+                    readonly
+                    [ngClass]="aplicaCssErro(cidade)"
+                >
+                <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(cidade)"
+                    mensagemErro="Cidade é obrigatório"
+                ></app-campo-control-erro>
             </div>
-        </div>
 
-        <div class="col-sm-4">
-            <label
-                for="cidade"
-                class="control-label"
-            >Cidade</label>
-            <input
-                type="text"
-                class="form-control"
-                [class.is-invalid]="!cidade.valid && cidade.touched"
-                id="cidade"
-                name="cidade"
-                ngModel
-                required
-                #cidade="ngModel"
-                readonly
-            >
-            <div
-                *ngIf="!cidade.valid && cidade.touched"
-                class="alert alert-danger"
-                role="alert"
-            >
-                Cidade é obrigatório.
-            </div>
-        </div>
-
-        <div class="col-sm-3">
-            <label
-                for="estado"
-                class="control-label"
-            >Estado</label>
-            <input
-                type="text"
-                class="form-control"
-                [class.is-invalid]="!estado.valid && estado.touched"
-                id="estado"
-                name="estado"
-                ngModel
-                required
-                #estado="ngModel"
-                readonly
-            >
-            <div
-                *ngIf="!estado.valid && estado.touched"
-                class="alert alert-danger"
-                role="alert"
-            >
-                Estado é obrigatório.
+            <div class="col-sm-3">
+                <label
+                    for="estado"
+                    class="control-label"
+                >Estado</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="estado"
+                    name="estado"
+                    ngModel
+                    required
+                    #estado="ngModel"
+                    readonly
+                    [ngClass]="aplicaCssErro(estado)"
+                >
+                <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched(estado)"
+                    mensagemErro="Estado é obrigatório"
+                ></app-campo-control-erro>
             </div>
         </div>
     </div>
