@@ -31,13 +31,17 @@ export class DataFormComponent implements OnInit {
         Validators.maxLength(20)
       ] ],
       email: [ null, [ Validators.required, Validators.email ] ],
-      cep: [ null, [ Validators.required, Validators.minLength(8) ] ],
-      numero: [ null, [ Validators.required ] ],
-      complemento: [ null],
-      rua: [ null, [ Validators.required ] ],
-      bairro: [ null, [ Validators.required ] ],
-      cidade: [ null, [ Validators.required ] ],
-      estado: [ null, [ Validators.required ] ]
+
+      endereco: this.formBuilder.group({
+        cep: [ null, [ Validators.required, Validators.minLength(8) ] ],
+        numero: [ null, [ Validators.required ] ],
+        complemento: [ null ],
+        rua: [ null, [ Validators.required ] ],
+        bairro: [ null, [ Validators.required ] ],
+        cidade: [ null, [ Validators.required ] ],
+        estado: [ null, [ Validators.required ] ]
+      })
+
     })
     console.log('frm', this.formulario)
   }
@@ -71,5 +75,53 @@ export class DataFormComponent implements OnInit {
     return {
       'is-invalid': this.verificaValidTouched(campo)
     }
+  }
+
+  consultaCEP() {
+
+    let cep = this.formulario.get('endereco.cep')?.value
+
+    cep.replace(/\D/g, '')
+
+    //Verifica se campo cep possui valor informado.
+    if (cep != '') {
+
+      // Expressão regular para validar o CEP.
+      let validaCEP = /^[0-9]{8}$/
+
+      //Valida o formato do CEP.
+      if (validaCEP.test(cep)) {
+
+        this.resetaDadosForm()
+
+        this.http.get(`//viacep.com.br/ws/${cep}/json`).pipe(map((dados: any) => dados))
+          .subscribe(dados => { this.populaDadosForm(dados) })
+      }
+    }
+  }
+  populaDadosForm(dados: any) {
+
+    this.formulario.patchValue({
+      endereco: {
+        cep: dados.cep,
+        complemento: dados.complemento,
+        rua: dados.logradouro,
+        bairro: dados.bairro,
+        cidade: dados.localidade,
+        estado: dados.uf,
+      }
+    })
+  }
+  resetaDadosForm() {
+    this.formulario.patchValue({
+      endereco: {
+        cep: null,
+        complemento: null,
+        rua: null,
+        bairro: null,
+        cidade: null,
+        estado: null,
+      }
+    })
   }
 }
