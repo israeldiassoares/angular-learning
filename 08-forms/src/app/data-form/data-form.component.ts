@@ -30,8 +30,16 @@ export class DataFormComponent implements OnInit {
         Validators.minLength(3),
         Validators.maxLength(20)
       ] ],
-      email: [ null, [ Validators.required, Validators.email ] ]
+      email: [ null, [ Validators.required, Validators.email ] ],
+      cep: [ null, [ Validators.required, Validators.minLength(8) ] ],
+      numero: [ null, [ Validators.required ] ],
+      complemento: [ null],
+      rua: [ null, [ Validators.required ] ],
+      bairro: [ null, [ Validators.required ] ],
+      cidade: [ null, [ Validators.required ] ],
+      estado: [ null, [ Validators.required ] ]
     })
+    console.log('frm', this.formulario)
   }
   onSubmit() {
     console.log(this.formulario.value)
@@ -48,5 +56,20 @@ export class DataFormComponent implements OnInit {
 
   resetarFormulario() {
     this.formulario.reset()
+  }
+
+  verificaValidTouched(campo: string) {
+    return !this.formulario.get(campo)?.valid && this.formulario.get(campo)?.touched
+  }
+
+  verificaEmailInvalido(): boolean {
+    let campoEmail = this.formulario.get('email')
+    return campoEmail!.errors ? (campoEmail!.errors![ 'email' ] && campoEmail?.touched) : null
+  }
+
+  aplicarCssErro(campo: string) {
+    return {
+      'is-invalid': this.verificaValidTouched(campo)
+    }
   }
 }
