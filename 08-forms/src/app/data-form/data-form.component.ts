@@ -46,17 +46,36 @@ export class DataFormComponent implements OnInit {
     console.log('frm', this.formulario)
   }
   onSubmit() {
-    console.log(this.formulario.value)
-    this.http.post('https://httpbin.org/post',
-      JSON.stringify(this.formulario.value))
-      .pipe(map(res => res))
-      .subscribe(dados => {
-        console.log(dados)
-        this.resetarFormulario()
-      },
-        (error: any) => alert('errooo')
-      )
+
+    if (this.formulario.valid) {
+      this.http.post('https://httpbin.org/post',
+        JSON.stringify(this.formulario.value))
+        .pipe(map(res => res))
+        .subscribe(dados => {
+          console.log(dados)
+          this.resetarFormulario()
+        },
+          (error: any) => alert('errooo')
+        )
+    } else {
+      console.log('formulário inválido')
+      this.verificaValidacaoForm(this.formulario)
+
+    }
   }
+
+  verificaValidacaoForm(formGroup: FormGroup) {
+    Object.keys(this.formulario.controls).forEach((campo) => {
+      console.log('campo', campo)
+      const controle = this.formulario.get(campo)
+      controle?.markAllAsTouched()
+
+      // if (controle instanceof FormGroup) {
+      //   this.verificaValidacaoForm(controle)
+      // }
+    })
+  }
+
 
   resetarFormulario() {
     this.formulario.reset()
