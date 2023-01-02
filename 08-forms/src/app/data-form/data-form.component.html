@@ -271,6 +271,27 @@
 
     </div>
 
+    <div class="form-group">
+        <div class="col-md-6">
+            <div class="form-check form-check-inline">
+                <label
+                    for="checkbox"
+                    class="form-check-label"
+                ><input
+                        type="checkbox"
+                        formControlName="termos"
+                        class="form-check-input"
+                        [ngClass]="aplicarCssErro('termos')"
+                    >Aceito os termos.
+                </label>
+                <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched('termos')"
+                    mensagemErro="Termos é obrigatório"
+                ></app-campo-control-erro>
+            </div>
+        </div>
+    </div>
+
     <div>
         <button
             type="submit"
