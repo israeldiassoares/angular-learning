@@ -20,6 +20,7 @@ export class DataFormComponent implements OnInit {
   estados: Observable<EstadoBr[]>
   cargos: Cargos[]
   tecnologias: Tecnologias[]
+  newsletterOp: any[]
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,12 +32,13 @@ export class DataFormComponent implements OnInit {
     this.estados = this.dropdownService.getDropDownBr()
     this.cargos = this.dropdownService.getCargos()
     this.tecnologias = this.dropdownService.getTecnologias()
+    this.newsletterOp = []
   }
 
   ngOnInit(): void {
     this.estados = this.dropdownService.getDropDownBr()
     this.cargos = this.dropdownService.getCargos()
-
+    this.newsletterOp = this.dropdownService.getNewsletter()
     // this.dropdownService.getDropDownBr()
     //   .subscribe(
     //     dados => { this.estados = dados; console.log(dados) }
@@ -63,7 +65,8 @@ export class DataFormComponent implements OnInit {
         estado: [ null, [ Validators.required ] ]
       }),
       cargo: [ null ],
-      tecnologias: [ null ]
+      tecnologias: [ null ],
+      newsletter: [ 's' ]
     })
   }
 

@@ -237,6 +237,38 @@
                 >{{ tecnologia.desc}}</option>
             </select>
         </div>
+
+        <div
+            class="col-sm-3"
+            [ngClass]="aplicarCssErro('newsletter')"
+        >
+            <label
+                for="newsletter"
+                class="control-label"
+            >Newsletter</label>
+
+            <div
+                id="newsletter"
+                class="row"
+            >
+                <div
+                    class="col-sm-6"
+                    *ngFor="let newsletter of newsletterOp"
+                >
+                    <label
+                        for="newsletter"
+                        class="radio-inline"
+                    >
+                        <input
+                            type="radio"
+                            formControlName="newsletter"
+                            [value]="newsletter.valor"
+                        >{{ newsletter.desc}}
+                    </label>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div>
