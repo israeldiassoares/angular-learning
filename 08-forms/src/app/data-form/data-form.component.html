@@ -218,6 +218,25 @@
                 >{{ cargo.desc}}</option>
             </select>
         </div>
+
+        <div class="col-sm-3">
+            <label
+                for="tecnologias"
+                class="control-label"
+            >Tecnologias</label>
+            <select
+                multiple
+                class="form-control"
+                id="tecnologias"
+                [ngClass]="aplicarCssErro('tecnologias')"
+                formControlName="tecnologias"
+            >
+                <option
+                    *ngFor="let tecnologia of tecnologias"
+                    [value]="tecnologia.nome"
+                >{{ tecnologia.desc}}</option>
+            </select>
+        </div>
     </div>
 
     <div>
@@ -230,11 +249,15 @@
             (click)="resetarFormulario()"
         >Cancelar</button>
         <button
-            class="btn"
+            class="btn btn-info"
             (click)="setarCargo()"
         >Setar Cargo</button>
+        <button
+            class="btn btn-info"
+            (click)="setarTecnologia()"
+        >Tecnologias</button>
     </div>
 
-    <app-form-debug [form]="formulario" ></app-form-debug>
+    <app-form-debug [form]="formulario"></app-form-debug>
 
 </form>

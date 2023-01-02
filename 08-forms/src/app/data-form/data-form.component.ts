@@ -1,3 +1,4 @@
+import { Cargos } from './../shared/models/cargos'
 import { ConsultaCepService } from './../shared/services/consulta-cep.service'
 import { DropdownService } from './../shared/services/dropdown.service'
 import { Component, OnInit } from '@angular/core'
@@ -5,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Observable, map } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { EstadoBr } from './../shared/models/estado-br'
+import { Tecnologias } from '../shared/models/tecnologias'
 
 @Component({
   selector: 'app-data-form',
@@ -16,7 +18,8 @@ export class DataFormComponent implements OnInit {
   formulario: FormGroup
   // estados: EstadoBr[]
   estados: Observable<EstadoBr[]>
-  cargos: any[]
+  cargos: Cargos[]
+  tecnologias: Tecnologias[]
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,6 +30,7 @@ export class DataFormComponent implements OnInit {
     this.formulario = new FormGroup({})
     this.estados = this.dropdownService.getDropDownBr()
     this.cargos = this.dropdownService.getCargos()
+    this.tecnologias = this.dropdownService.getTecnologias()
   }
 
   ngOnInit(): void {
@@ -58,19 +62,25 @@ export class DataFormComponent implements OnInit {
         cidade: [ null, [ Validators.required ] ],
         estado: [ null, [ Validators.required ] ]
       }),
-      cargo: [ null ]
+      cargo: [ null ],
+      tecnologias: [ null ]
     })
   }
-  setarCargo() {
+
+  setarTecnologia(): void {
+    this.formulario.get('tecnologias')?.setValue([ 'java', 'javascript', 'php' ])
+  }
+
+  setarCargo(): void {
     const cargo = { nome: 'Dev', nivel: "Pleno", desc: "DEV Pl" }
     this.formulario.get('cargo')?.setValue(cargo)
   }
 
-  compararCargos(obj1: any, obj2: any) {
+  compararCargos(obj1: any, obj2: any): boolean {
     return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.formulario.valid) {
       this.http.post('https://httpbin.org/post',
         JSON.stringify(this.formulario.value))
