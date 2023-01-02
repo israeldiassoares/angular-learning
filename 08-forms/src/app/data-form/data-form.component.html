@@ -290,6 +290,36 @@
                 ></app-campo-control-erro>
             </div>
         </div>
+
+        <div class="row">
+            <label for="frameworks">Frameworks</label>
+            <div
+                id="frameworks"
+                class="col-sm-4"
+            >
+                <div
+                    class="form-check form-check-inline"
+                    formArrayName="frameworks"
+                    *ngFor="let item of pegarFrameworksControls(); let i = index"
+                >
+                    <label
+                        for="frameworks"
+                        class="form-check-label"
+                    ><input
+                            type="checkbox"
+                            class="form-check-input"
+                            [ngClass]="aplicarCssErro('frameworks')"
+                            [formControlName]="i"
+                        >{{frameworks[i]}}
+                    </label>
+                    <!-- <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched('frameworks')"
+                    mensagemErro="Termos é obrigatório"
+                ></app-campo-control-erro> -->
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div>

@@ -2,7 +2,7 @@ import { Cargos } from './../shared/models/cargos'
 import { ConsultaCepService } from './../shared/services/consulta-cep.service'
 import { DropdownService } from './../shared/services/dropdown.service'
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, map } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { EstadoBr } from './../shared/models/estado-br'
@@ -21,6 +21,8 @@ export class DataFormComponent implements OnInit {
   cargos: Cargos[]
   tecnologias: Tecnologias[]
   newsletterOp: any[]
+
+  frameworks = [ "Angular", "React", "Vue", "Sencha" ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,8 +69,26 @@ export class DataFormComponent implements OnInit {
       cargo: [ null ],
       tecnologias: [ null ],
       newsletter: [ 's' ],
-      termos: [ null, Validators.pattern('true') ]
+      termos: [ null, Validators.pattern('true') ],
+      frameworks: this.buildFrameworks()
     })
+  }
+  //Padrao BuildAlguma coisa
+  buildFrameworks() {
+    const values = this.frameworks.map(v =>
+      new FormControl(false)
+    )
+
+    return this.formBuilder.array(values)
+    // return [
+    //   new FormControl(false), //Angular
+    //   new FormControl(false), //React
+    //   new FormControl(false), //Vue
+    //   new FormControl(false) //Sancha
+    // ]
+  }
+  pegarFrameworksControls() {
+    return this.formulario.get('frameworks') ? (<FormArray>this.formulario.get('frameworks')).controls : null
   }
 
   setarTecnologia(): void {
@@ -85,9 +105,18 @@ export class DataFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    let valueSubmit = Object.assign({}, this.formulario.value)
+
+    valueSubmit = Object.assign(valueSubmit, {
+      frameworks: valueSubmit.frameworks
+        .map((v: string, i: number) => v ? this.frameworks[ i ] : null).filter((v: null) => v !== null)
+    })
+    console.log('Frame ', valueSubmit)
+
+
     if (this.formulario.valid) {
       this.http.post('https://httpbin.org/post',
-        JSON.stringify(this.formulario.value))
+        JSON.stringify(valueSubmit))
         .pipe(map(res => res))
         .subscribe(dados => {
           console.log(dados)
