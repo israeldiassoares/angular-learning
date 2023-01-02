@@ -16,7 +16,7 @@ export class DataFormComponent implements OnInit {
   formulario: FormGroup
   // estados: EstadoBr[]
   estados: Observable<EstadoBr[]>
-
+  cargos: any[]
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,10 +26,12 @@ export class DataFormComponent implements OnInit {
   ) {
     this.formulario = new FormGroup({})
     this.estados = this.dropdownService.getDropDownBr()
+    this.cargos = this.dropdownService.getCargos()
   }
 
   ngOnInit(): void {
     this.estados = this.dropdownService.getDropDownBr()
+    this.cargos = this.dropdownService.getCargos()
 
     // this.dropdownService.getDropDownBr()
     //   .subscribe(
@@ -55,11 +57,19 @@ export class DataFormComponent implements OnInit {
         bairro: [ null, [ Validators.required ] ],
         cidade: [ null, [ Validators.required ] ],
         estado: [ null, [ Validators.required ] ]
-      })
-
+      }),
+      cargo: [ null ]
     })
-    console.log('frm', this.formulario)
   }
+  setarCargo() {
+    const cargo = { nome: 'Dev', nivel: "Pleno", desc: "DEV Pl" }
+    this.formulario.get('cargo')?.setValue(cargo)
+  }
+
+  compararCargos(obj1: any, obj2: any) {
+    return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2
+  }
+
   onSubmit() {
     if (this.formulario.valid) {
       this.http.post('https://httpbin.org/post',
