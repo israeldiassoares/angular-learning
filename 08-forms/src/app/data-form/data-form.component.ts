@@ -1,8 +1,9 @@
+import { FormValidations } from './../shared/services/form-validations';
 import { Cargos } from './../shared/models/cargos'
 import { ConsultaCepService } from './../shared/services/consulta-cep.service'
 import { DropdownService } from './../shared/services/dropdown.service'
 import { Component, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, map } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { EstadoBr } from './../shared/models/estado-br'
@@ -79,7 +80,7 @@ export class DataFormComponent implements OnInit {
       new FormControl(false)
     )
 
-    return this.formBuilder.array(values)
+    return this.formBuilder.array(values, FormValidations.requiredMinCheckbox(1))
     // return [
     //   new FormControl(false), //Angular
     //   new FormControl(false), //React
@@ -87,6 +88,9 @@ export class DataFormComponent implements OnInit {
     //   new FormControl(false) //Sancha
     // ]
   }
+
+
+
   pegarFrameworksControls() {
     return this.formulario.get('frameworks') ? (<FormArray>this.formulario.get('frameworks')).controls : null
   }
