@@ -1,4 +1,4 @@
-import { FormValidations } from './../shared/services/form-validations';
+import { FormValidations } from './../shared/services/form-validations'
 import { Cargos } from './../shared/models/cargos'
 import { ConsultaCepService } from './../shared/services/consulta-cep.service'
 import { DropdownService } from './../shared/services/dropdown.service'
@@ -53,13 +53,12 @@ export class DataFormComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       nome: [ null, [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(20)
+        Validators.minLength(3)
       ] ],
       email: [ null, [ Validators.required, Validators.email ] ],
 
       endereco: this.formBuilder.group({
-        cep: [ null, [ Validators.required, Validators.minLength(8) ] ],
+        cep: [ null, [ Validators.required, Validators.minLength(8), FormValidations.cepValidator ] ],
         numero: [ null, [ Validators.required ] ],
         complemento: [ null ],
         rua: [ null, [ Validators.required ] ],
@@ -153,6 +152,13 @@ export class DataFormComponent implements OnInit {
 
   verificaValidTouched(campo: string) {
     return !this.formulario.get(campo)?.valid && this.formulario.get(campo)?.touched
+  }
+
+  verificaRequired(campo: string) {
+    return (
+      this.formulario.get(campo)?.hasError('required') &&
+      (this.formulario.get((campo))?.touched || this.formulario.get(campo)?.dirty)
+    )
   }
 
   verificaEmailInvalido(): boolean {
