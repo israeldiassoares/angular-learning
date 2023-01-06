@@ -56,7 +56,7 @@ export class DataFormComponent implements OnInit {
         Validators.minLength(3)
       ] ],
       email: [ null, [ Validators.required, Validators.email ] ],
-
+      confirmarEmail: [ null, [ FormValidations.equalsTo('email') ] ],
       endereco: this.formBuilder.group({
         cep: [ null, [ Validators.required, Validators.minLength(8), FormValidations.cepValidator ] ],
         numero: [ null, [ Validators.required ] ],

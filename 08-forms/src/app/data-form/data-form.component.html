@@ -66,6 +66,40 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <label
+                for="email"
+                class="form-label"
+            >Confirmar Email</label>
+        </div>
+        <div class="col-sm-12">
+
+            <div class="input-group">
+                <span
+                    class="input-group-text"
+                    id="basic-addon2"
+                >@</span>
+                <input
+                    type="email"
+                    formControlName="confirmarEmail"
+                    class="form-control"
+                    placeholder="Confirmar Email"
+                    aria-label="confirmarEmail"
+                    aria-describedby="basic-addon1"
+                    id="confirmarEmail"
+                    placeholder="nome@email.com"
+                    [ngClass]="aplicarCssErro('confirmarEmail')"
+                >
+            </div>
+            <app-campo-control-erro
+                [mostrarErro]="formulario.get('confirmarEmail')?.hasError('equalsTo')"
+                msgErro="Emails não são iguais."
+            >
+            </app-campo-control-erro>
+        </div>
+    </div>
+
     <div formGroupName="endereco">
         <div class="form-group row">
             <div class="col-sm-3">
