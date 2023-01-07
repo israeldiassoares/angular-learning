@@ -1,3 +1,4 @@
+import { VerificaEmailServiceService } from './services/verifica-email-service.service'
 import { FormValidations } from './../shared/services/form-validations'
 import { Cargos } from './../shared/models/cargos'
 import { ConsultaCepService } from './../shared/services/consulta-cep.service'
@@ -29,7 +30,8 @@ export class DataFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private dropdownService: DropdownService,
-    private cepService: ConsultaCepService
+    private cepService: ConsultaCepService,
+    private verificaEmail: VerificaEmailServiceService
   ) {
     this.formulario = new FormGroup({})
     this.estados = this.dropdownService.getDropDownBr()
@@ -39,6 +41,10 @@ export class DataFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.verificaEmail.verificarEmail('email@email.com').subscribe()
+
+
     this.estados = this.dropdownService.getDropDownBr()
     this.cargos = this.dropdownService.getCargos()
     this.newsletterOp = this.dropdownService.getNewsletter()
