@@ -42,7 +42,7 @@ export class DataFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.verificaEmail.verificarEmail('email@email.com').subscribe()
+    // this.verificaEmail.verificarEmail('email@email.com').subscribe()
 
 
     this.estados = this.dropdownService.getDropDownBr()
@@ -61,7 +61,7 @@ export class DataFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(3)
       ] ],
-      email: [ null, [ Validators.required, Validators.email ] ],
+      email: [ null, [ Validators.required, Validators.email ], this.validarEmail.bind(this) ],
       confirmarEmail: [ null, [ FormValidations.equalsTo('email') ] ],
       endereco: this.formBuilder.group({
         cep: [ null, [ Validators.required, Validators.minLength(8), FormValidations.cepValidator ] ],
@@ -211,5 +211,11 @@ export class DataFormComponent implements OnInit {
         estado: null,
       }
     })
+  }
+
+  validarEmail(formControl: FormControl) {
+    return this.verificaEmail.verificarEmail(formControl.value).pipe(
+      map(emailExiste => emailExiste ? { emailInvalido: true } : null)
+    )
   }
 }
