@@ -4,7 +4,7 @@ import { Cargos } from './../shared/models/cargos'
 import { ConsultaCepService } from './../shared/services/consulta-cep.service'
 import { DropdownService } from './../shared/services/dropdown.service'
 import { Component, OnInit } from '@angular/core'
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, map } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { EstadoBr } from './../shared/models/estado-br'
@@ -59,7 +59,9 @@ export class DataFormComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       nome: [ null, [
         Validators.required,
-        Validators.minLength(3)
+        Validators.minLength(3),
+        Validators.maxLength(6)
+
       ] ],
       email: [ null, [ Validators.required, Validators.email ], this.validarEmail.bind(this) ],
       confirmarEmail: [ null, [ FormValidations.equalsTo('email') ] ],

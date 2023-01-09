@@ -22,10 +22,16 @@
                 id="nome"
                 [ngClass]="aplicarCssErro('nome')"
             >
-            <app-campo-control-erro
+            <app-error-msg
+                [control]="$any(formulario.get('nome'))"
+                label="Nome"
+            >
+
+            </app-error-msg>
+            <!-- <app-campo-control-erro
                 [mostrarErro]="verificaValidTouched('nome') "
                 mensagemErro="Nome é obrigatório"
-            ></app-campo-control-erro>
+            ></app-campo-control-erro> -->
         </div>
     </div>
 
@@ -55,7 +61,14 @@
                     [ngClass]="aplicarCssErro('email')"
                 >
             </div>
-            <app-campo-control-erro
+            <app-error-msg
+                [control]="$any(formulario.get('email'))"
+                label="Email"
+            >
+            </app-error-msg>
+
+            <!-- Refatoração para componente unico de validação do campo app-error-msg -->
+            <!-- <app-campo-control-erro
                 [mostrarErro]="verificaValidTouched('email') "
                 mensagemErro="Email é obrigatório"
             ></app-campo-control-erro>
@@ -74,7 +87,7 @@
             <app-campo-control-erro
                 [mostrarErro]="formulario.get('email')?.hasError('emailInvalido')"
                 mensagemErro="Email já cadastrado!"
-            ></app-campo-control-erro>
+            ></app-campo-control-erro> -->
         </div>
     </div>
 
@@ -104,11 +117,18 @@
                     [ngClass]="aplicarCssErro('confirmarEmail')"
                 >
             </div>
-            <app-campo-control-erro
+            <app-error-msg
+                [control]="$any(formulario.get('confirmarEmail')?.hasError('equalsTo'))"
+                label="Confirmar Email"
+            >
+            </app-error-msg>
+
+            <!-- refatoracao para app-error-msg -->
+            <!-- <app-campo-control-erro
                 [mostrarErro]="formulario.get('confirmarEmail')?.hasError('equalsTo')"
                 msgErro="Emails não são iguais."
             >
-            </app-campo-control-erro>
+            </app-campo-control-erro> -->
         </div>
     </div>
 
@@ -127,14 +147,18 @@
                     formControlName="cep"
                     (blur)="consultaCEP()"
                 >
-                <app-campo-control-erro
+                <app-error-msg [control]="$any(formulario.get('endereco.cep'))"
+                label="CEP">
+
+                </app-error-msg>
+                <!-- <app-campo-control-erro
                     [mostrarErro]="verificaRequired('endereco.cep')"
                     mensagemErro="Cep é obrigatório"
                 ></app-campo-control-erro>
                 <app-campo-control-erro
                     [mostrarErro]="formulario.get('endereco.cep')?.hasError('cepInvalido')"
                     mensagemErro="Cep Inválido"
-                ></app-campo-control-erro>
+                ></app-campo-control-erro> -->
             </div>
 
             <div class="col-sm-3">
@@ -149,10 +173,13 @@
                     [ngClass]="aplicarCssErro('endereco.numero')"
                     formControlName="numero"
                 >
-                <app-campo-control-erro
+              <app-error-msg [control]="$any(formulario.get('endereco.numero'))"
+              label="Número">
+              </app-error-msg>
+                <!-- <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched('endereco.numero')"
                     mensagemErro="Número é obrigatório"
-                ></app-campo-control-erro>
+                ></app-campo-control-erro> -->
             </div>
 
             <div class="col-sm-6">
