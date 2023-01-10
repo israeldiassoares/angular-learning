@@ -145,7 +145,6 @@
                     id="cep"
                     [ngClass]="aplicarCssErro('endereco.cep')"
                     formControlName="cep"
-                    (blur)="consultaCEP()"
                 >
                 <app-error-msg [control]="$any(formulario.get('endereco.cep'))"
                 label="CEP">

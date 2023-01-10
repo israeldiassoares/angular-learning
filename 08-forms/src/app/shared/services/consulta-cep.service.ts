@@ -13,10 +13,10 @@ export class ConsultaCepService {
 
   consultaCEP(cep: string) {
 
-    cep.replace(/\D/g, '')
+    cep = cep.replace(/\D/g, '')
 
     //Verifica se campo cep possui valor informado.
-    if (cep != '') {
+    if (cep !== '') {
 
       // Expressão regular para validar o CEP.
       let validaCEP = /^[0-9]{8}$/
