@@ -81,15 +81,17 @@ export class DataFormComponent implements OnInit {
       frameworks: this.buildFrameworks()
     })
 
-    this.formulario.get('endereco.cep')?.statusChanges
+      this.formulario.get('endereco.cep')?.statusChanges
       .pipe(
         distinctUntilChanged(),
-        tap(value => console.log('status CEP', value)),
+        tap(value => console.log('status CEP:', value)),
         switchMap(status => status === 'VALID' ?
-          this.cepService.consultaCEP(this.formulario.get('endereco.cep')?.value) : EMPTY
+          this.cepService.consultaCEP(this.formulario.get('endereco.cep')?.value)
+          : EMPTY
         )
       )
-      .subscribe(dados => dados ? this.populaDadosForm(dados) : {})
+      .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
+
   }
   //Padrao BuildAlguma coisa
   buildFrameworks() {

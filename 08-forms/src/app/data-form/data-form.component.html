@@ -114,7 +114,6 @@
                     aria-describedby="basic-addon1"
                     id="confirmarEmail"
                     placeholder="nome@email.com"
-                    [ngClass]="aplicarCssErro('confirmarEmail')"
                 >
             </div>
             <app-error-msg
@@ -140,10 +139,8 @@
                     class="control-label"
                 >CEP</label>
                 <input
-                    type="text"
                     class="form-control"
                     id="cep"
-                    [ngClass]="aplicarCssErro('endereco.cep')"
                     formControlName="cep"
                 >
                 <app-error-msg [control]="$any(formulario.get('endereco.cep'))"
@@ -169,7 +166,6 @@
                     type="text"
                     class="form-control"
                     id="numero"
-                    [ngClass]="aplicarCssErro('endereco.numero')"
                     formControlName="numero"
                 >
               <app-error-msg [control]="$any(formulario.get('endereco.numero'))"
@@ -190,7 +186,6 @@
                     type="text"
                     class="form-control"
                     id="complemento"
-                    [ngClass]="aplicarCssErro('endereco.complemento')"
                     formControlName="complemento"
                 >
             </div>
@@ -205,7 +200,6 @@
                     type="text"
                     class="form-control"
                     id="rua"
-                    [ngClass]="aplicarCssErro('endereco.rua')"
                     formControlName="rua"
                 >
                 <app-campo-control-erro
@@ -224,7 +218,6 @@
                     type="text"
                     class="form-control"
                     id="bairro"
-                    [ngClass]="aplicarCssErro('endereco.bairro')"
                     formControlName="bairro"
                 >
                 <app-campo-control-erro
@@ -242,13 +235,19 @@
                     type="text"
                     class="form-control"
                     id="cidade"
-                    [ngClass]="aplicarCssErro('endereco.cidade')"
                     formControlName="cidade"
                 >
-                <app-campo-control-erro
+                <!-- Refactorado campo per app errore -->
+                <!-- <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched('endereco.cidade')"
                     mensagemErro="Cidade é obrigatório"
-                ></app-campo-control-erro>
+                ></app-campo-control-erro> -->
+
+                <app-error-msg
+                [control]="$any(formulario.get('endereco.cidade'))"
+                label="Cidade"
+            >
+            </app-error-msg>
             </div>
 
             <div class="col-sm-3">
@@ -259,7 +258,6 @@
                 <select
                     class="form-control"
                     id="estado"
-                    [ngClass]="aplicarCssErro('endereco.estado')"
                     formControlName="estado"
                 >
                     <option
@@ -267,10 +265,15 @@
                         [value]="estado.sigla"
                     >{{ estado.nome}}</option>
                 </select>
-                <app-campo-control-erro
+                <app-error-msg
+                [control]="$any(formulario.get('endereco.estado'))"
+                label="Estado"
+            >
+            </app-error-msg>
+                <!-- <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched('endereco.estado')"
                     mensagemErro="Estado é obrigatório"
-                ></app-campo-control-erro>
+                ></app-campo-control-erro> -->
             </div>
         </div>
     </div>
