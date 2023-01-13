@@ -3,37 +3,14 @@
     [formGroup]="formulario"
     (ngSubmit)="onSubmit()"
 >
-
-    <div class="form-group row">
-        <div class="col-sm-12">
-            <label
-                for="nome"
-                class="form-label"
-            >Nome</label>
-        </div>
-        <div class="col-sm-12">
-            <input
-                type="text"
-                formControlName="nome"
-                class="form-control"
-                placeholder="Nome"
-                aria-label="nome"
-                aria-describedby="basic-addon1"
-                id="nome"
-                [ngClass]="aplicarCssErro('nome')"
-            >
-            <app-error-msg
-                [control]="$any(formulario.get('nome'))"
-                label="Nome"
-            >
-
-            </app-error-msg>
-            <!-- <app-campo-control-erro
-                [mostrarErro]="verificaValidTouched('nome') "
-                mensagemErro="Nome é obrigatório"
-            ></app-campo-control-erro> -->
-        </div>
-    </div>
+    <app-input-field
+        class="col-sm-12"
+        formControlName="nome"
+        [classeCss]="aplicarCssErro('nome')"
+        id="nome"
+        label="Nome"
+        [control]="$any(formulario.get('nome'))"
+    ></app-input-field>
 
     <div class="form-group row">
         <div class="col-sm-12">
@@ -143,8 +120,10 @@
                     id="cep"
                     formControlName="cep"
                 >
-                <app-error-msg [control]="$any(formulario.get('endereco.cep'))"
-                label="CEP">
+                <app-error-msg
+                    [control]="$any(formulario.get('endereco.cep'))"
+                    label="CEP"
+                >
 
                 </app-error-msg>
                 <!-- <app-campo-control-erro
@@ -168,9 +147,11 @@
                     id="numero"
                     formControlName="numero"
                 >
-              <app-error-msg [control]="$any(formulario.get('endereco.numero'))"
-              label="Número">
-              </app-error-msg>
+                <app-error-msg
+                    [control]="$any(formulario.get('endereco.numero'))"
+                    label="Número"
+                >
+                </app-error-msg>
                 <!-- <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched('endereco.numero')"
                     mensagemErro="Número é obrigatório"
@@ -244,10 +225,10 @@
                 ></app-campo-control-erro> -->
 
                 <app-error-msg
-                [control]="$any(formulario.get('endereco.cidade'))"
-                label="Cidade"
-            >
-            </app-error-msg>
+                    [control]="$any(formulario.get('endereco.cidade'))"
+                    label="Cidade"
+                >
+                </app-error-msg>
             </div>
 
             <div class="col-sm-3">
@@ -266,10 +247,10 @@
                     >{{ estado.nome}}</option>
                 </select>
                 <app-error-msg
-                [control]="$any(formulario.get('endereco.estado'))"
-                label="Estado"
-            >
-            </app-error-msg>
+                    [control]="$any(formulario.get('endereco.estado'))"
+                    label="Estado"
+                >
+                </app-error-msg>
                 <!-- <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched('endereco.estado')"
                     mensagemErro="Estado é obrigatório"
