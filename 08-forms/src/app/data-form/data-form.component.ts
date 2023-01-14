@@ -1,23 +1,26 @@
+import { Component, OnInit } from '@angular/core'
+import { EMPTY, Observable, distinctUntilChanged, map, switchMap, tap } from 'rxjs'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { VerificaEmailServiceService } from './services/verifica-email-service.service'
 import { FormValidations } from './../shared/services/form-validations'
 import { Cargos } from './../shared/models/cargos'
 import { ConsultaCepService } from './../shared/services/consulta-cep.service'
 import { DropdownService } from './../shared/services/dropdown.service'
-import { Component, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { EMPTY, Observable, distinctUntilChanged, map, switchMap, tap } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { EstadoBr } from './../shared/models/estado-br'
 import { Tecnologias } from '../shared/models/tecnologias'
+import { BaseFormComponent } from './../shared/base-form/base-form.component'
 
 @Component({
   selector: 'app-data-form',
   templateUrl: './data-form.component.html',
   styleUrls: [ './data-form.component.scss' ]
 })
-export class DataFormComponent implements OnInit {
+//Adicionado herança para baseFormComponent centralizando base de classe
+export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  formulario: FormGroup
+
+  // formulario: FormGroup
   // estados: EstadoBr[]
   estados: Observable<EstadoBr[]>
   cargos: Cargos[]
@@ -33,6 +36,8 @@ export class DataFormComponent implements OnInit {
     private cepService: ConsultaCepService,
     private verificaEmail: VerificaEmailServiceService
   ) {
+    //Add method super para acessar dados da classe herdada
+    super()
     this.formulario = new FormGroup({})
     this.estados = this.dropdownService.getDropDownBr()
     this.cargos = this.dropdownService.getCargos()
@@ -40,7 +45,8 @@ export class DataFormComponent implements OnInit {
     this.newsletterOp = []
   }
 
-  ngOnInit(): void {
+
+  override ngOnInit(): void {
 
     // this.verificaEmail.verificarEmail('email@email.com').subscribe()
 
@@ -81,16 +87,16 @@ export class DataFormComponent implements OnInit {
       frameworks: this.buildFrameworks()
     })
 
-      this.formulario.get('endereco.cep')?.statusChanges
+    this.formulario?.get('endereco.cep')?.statusChanges
       .pipe(
         distinctUntilChanged(),
         tap(value => console.log('status CEP:', value)),
         switchMap(status => status === 'VALID' ?
-          this.cepService.consultaCEP(this.formulario.get('endereco.cep')?.value)
+          this.cepService.consultaCEP(this.formulario?.get('endereco.cep')?.value)
           : EMPTY
         )
       )
-      .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
+      .subscribe(dados => dados ? this.populaDadosForm(dados) : {})
 
   }
   //Padrao BuildAlguma coisa
@@ -108,93 +114,45 @@ export class DataFormComponent implements OnInit {
     // ]
   }
 
-
-
   pegarFrameworksControls() {
-    return this.formulario.get('frameworks') ? (<FormArray>this.formulario.get('frameworks')).controls : null
+    return this.formulario?.get('frameworks') ? (<FormArray>this.formulario?.get('frameworks')).controls : null
   }
 
   setarTecnologia(): void {
-    this.formulario.get('tecnologias')?.setValue([ 'java', 'javascript', 'php' ])
+    this.formulario?.get('tecnologias')?.setValue([ 'java', 'javascript', 'php' ])
   }
 
   setarCargo(): void {
     const cargo = { nome: 'Dev', nivel: "Pleno", desc: "DEV Pl" }
-    this.formulario.get('cargo')?.setValue(cargo)
+    this.formulario?.get('cargo')?.setValue(cargo)
   }
 
   compararCargos(obj1: any, obj2: any): boolean {
     return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 === obj2
   }
-
-  onSubmit(): void {
-    let valueSubmit = Object.assign({}, this.formulario.value)
+  override submit() {
+    let valueSubmit = Object.assign({}, this.formulario?.value)
 
     valueSubmit = Object.assign(valueSubmit, {
       frameworks: valueSubmit.frameworks
         .map((v: string, i: number) => v ? this.frameworks[ i ] : null).filter((v: null) => v !== null)
     })
-    console.log('Frame ', valueSubmit)
+    console.log('Fruame ', valueSubmit)
 
-
-    if (this.formulario.valid) {
-      this.http.post('https://httpbin.org/post',
-        JSON.stringify(valueSubmit))
-        .pipe(map(res => res))
-        .subscribe(dados => {
-          console.log(dados)
-          this.resetarFormulario()
-        },
-          (error: any) => alert('errooo')
-        )
-    } else {
-      console.log('formulário inválido')
-      this.verificaValidacaoForm(this.formulario)
-
-    }
-  }
-
-  verificaValidacaoForm(formGroup: FormGroup) {
-    Object.keys(this.formulario.controls).forEach((campo) => {
-      console.log('campo', campo)
-      const controle = this.formulario.get(campo)
-      controle?.markAllAsTouched()
-
-      // if (controle instanceof FormGroup) {
-      //   this.verificaValidacaoForm(controle)
-      // }
-    })
-  }
-
-  resetarFormulario() {
-    this.formulario.reset()
-  }
-
-  verificaValidTouched(campo: string) {
-    return !this.formulario.get(campo)?.valid && this.formulario.get(campo)?.touched
-  }
-
-  verificaRequired(campo: string) {
-    return (
-      this.formulario.get(campo)?.hasError('required') &&
-      (this.formulario.get((campo))?.touched || this.formulario.get(campo)?.dirty)
-    )
-  }
-
-  verificaEmailInvalido(): boolean {
-    let campoEmail = this.formulario.get('email')
-    return campoEmail!.errors ? (campoEmail!.errors![ 'email' ] && campoEmail?.touched) : null
-  }
-
-  aplicarCssErro(campo: string) {
-    return {
-      'is-invalid': this.verificaValidTouched(campo)
-    }
+    this.http.post('https://httpbin.org/post',
+      JSON.stringify(valueSubmit))
+      .pipe(map(res => res))
+      .subscribe(dados => {
+        console.log(dados)
+        this.resetarFormulario()
+      },
+        (error: any) => alert('errooo')
+      )
   }
 
   consultaCEP() {
 
-    let cep = this.formulario.get('endereco.cep')?.value
+    let cep = this.formulario?.get('endereco.cep')?.value
 
     if (cep != null && cep !== '') {
       this.cepService.consultaCEP(cep)?.pipe().subscribe(dados => { this.populaDadosForm(dados) })
@@ -203,7 +161,7 @@ export class DataFormComponent implements OnInit {
 
   populaDadosForm(dados: any) {
 
-    this.formulario.patchValue({
+    this.formulario?.patchValue({
       endereco: {
         cep: dados.cep,
         complemento: dados.complemento,
@@ -214,8 +172,9 @@ export class DataFormComponent implements OnInit {
       }
     })
   }
+
   resetaDadosForm() {
-    this.formulario.patchValue({
+    this.formulario?.patchValue({
       endereco: {
         cep: null,
         complemento: null,
@@ -232,4 +191,5 @@ export class DataFormComponent implements OnInit {
       map(emailExiste => emailExiste ? { emailInvalido: true } : null)
     )
   }
+
 }
