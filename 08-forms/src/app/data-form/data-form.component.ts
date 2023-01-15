@@ -21,8 +21,8 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
 
 
   // formulario: FormGroup
-  // estados: EstadoBr[]
-  estados: Observable<EstadoBr[]>
+  estados: EstadoBr[]
+  // estados: Observable<EstadoBr[]>
   cargos: Cargos[]
   tecnologias: Tecnologias[]
   newsletterOp: any[]
@@ -39,7 +39,8 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     //Add method super para acessar dados da classe herdada
     super()
     this.formulario = new FormGroup({})
-    this.estados = this.dropdownService.getDropDownBr()
+    // this.estados = this.dropdownService.getEstadosBr()
+    this.estados = []
     this.cargos = this.dropdownService.getCargos()
     this.tecnologias = this.dropdownService.getTecnologias()
     this.newsletterOp = []
@@ -51,10 +52,13 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     // this.verificaEmail.verificarEmail('email@email.com').subscribe()
 
 
-    this.estados = this.dropdownService.getDropDownBr()
+    // this.estados = this.dropdownService.getEstadosBr()
+    this.dropdownService.getEstadosBr().subscribe(
+      dados => this.estados = dados
+    )
     this.cargos = this.dropdownService.getCargos()
     this.newsletterOp = this.dropdownService.getNewsletter()
-    // this.dropdownService.getDropDownBr()
+    // this.dropdownService.getEstadosBr()
     //   .subscribe(
     //     dados => { this.estados = dados; console.log(dados) }
     //   )
@@ -98,6 +102,18 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
       )
       .subscribe(dados => dados ? this.populaDadosForm(dados) : {})
 
+    // this.dropdownService.getCidades(8).subscribe(console.log)
+    this.formulario.get('endereco.estado')?.valueChanges
+      .pipe(
+        tap(estado => console.log('Novo estado', estado),
+          map((estado: string) => this.estados.filter(
+            e => e.sigla === estado
+          ),
+            map((estados: any) => estados && estados.length > 0 ? estados[ 0 ].id : EMPTY)
+          ),
+          switchMap((estadosId: any) => this.dropdownService.getCidades(estadosId))
+        )
+      ).subscribe()
   }
   //Padrao BuildAlguma coisa
   buildFrameworks() {

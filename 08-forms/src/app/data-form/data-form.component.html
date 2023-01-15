@@ -241,8 +241,9 @@
                     id="estado"
                     formControlName="estado"
                 >
+                <!-- removido async para nao se inscrever duas vezes no observable -->
                     <option
-                        *ngFor="let estado of estados | async"
+                        *ngFor="let estado of estados"
                         [value]="estado.sigla"
                     >{{ estado.nome}}</option>
                 </select>

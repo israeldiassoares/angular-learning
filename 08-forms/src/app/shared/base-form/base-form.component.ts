@@ -29,7 +29,7 @@ export abstract class BaseFormComponent implements OnInit {
   }
   //movido do data-form-component methods genericos centralizando em uma unica classe que será extendida quando necessário utilizar os methods
 
-  // TODO - fazer refactory de campos para aumentar a performace diminuindo o custo computacional
+  // TODO - fazer refactory de campos para aumentar a performace diminuindo o custo computacional 
   verificaValidacaoForm(formGroup: FormGroup | FormArray) {
     Object.keys(this.formulario!.controls).forEach((campo) => {
       console.log('campo', campo)
