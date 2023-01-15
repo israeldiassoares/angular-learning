@@ -207,7 +207,35 @@
                 ></app-campo-control-erro>
             </div>
 
-            <div class="col-sm-4">
+
+            <div class="col-sm-3">
+                <label
+                    for="cidade"
+                    class="control-label"
+                >cidade</label>
+                <select
+                    class="form-control"
+                    id="cidade"
+                    formControlName="cidade"
+                >
+                <!-- removido async para nao se inscrever duas vezes no observable -->
+                    <option
+                        *ngFor="let cidade of cidades"
+                        [value]="cidade.nome"
+                    >{{ cidade.nome}}</option>
+                </select>
+                <app-error-msg
+                    [control]="$any(formulario.get('endereco.cidade'))"
+                    label="cidade"
+                >
+                </app-error-msg>
+                <!-- <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched('endereco.estado')"
+                    mensagemErro="Estado é obrigatório"
+                ></app-campo-control-erro> -->
+            </div>
+
+            <!-- <div class="col-sm-4">
                 <label
                     for="cidade"
                     class="control-label"
@@ -217,19 +245,19 @@
                     class="form-control"
                     id="cidade"
                     formControlName="cidade"
-                >
+                > -->
                 <!-- Refactorado campo per app errore -->
                 <!-- <app-campo-control-erro
                     [mostrarErro]="verificaValidTouched('endereco.cidade')"
                     mensagemErro="Cidade é obrigatório"
                 ></app-campo-control-erro> -->
 
-                <app-error-msg
+                <!-- <app-error-msg
                     [control]="$any(formulario.get('endereco.cidade'))"
                     label="Cidade"
                 >
-                </app-error-msg>
-            </div>
+                </app-error-msg> -->
+            <!-- </div> -->
 
             <div class="col-sm-3">
                 <label
