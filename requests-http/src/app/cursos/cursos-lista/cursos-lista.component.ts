@@ -16,7 +16,8 @@ export class CursosListaComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.service.list().subscribe()
+    this.service.list()
+    .subscribe((dados: Curso[]):Curso[] => this.cursos = dados)
   }
 
 }
