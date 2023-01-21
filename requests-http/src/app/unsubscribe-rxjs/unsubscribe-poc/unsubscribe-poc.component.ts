@@ -1,3 +1,4 @@
+import { EnviarValorService } from './../enviar-valor.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,11 +10,13 @@ export class UnsubscribePocComponent implements OnInit {
 
   mostrarComponentes: boolean = true;
 
-  constructor() { }
+  constructor(private service: EnviarValorService) { }
 
   ngOnInit(): void {
   }
-  emitirValor(valor: string){}
+  emitirValor(valor: string){
+    this.service.emitirValor(valor)
+  }
 
   destruirComponentes(){
     this.mostrarComponentes = !this.mostrarComponentes

@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core'
 
 @Component({
@@ -8,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core'
 export class PocBaseComponent implements OnInit {
 
   @Input() nome: string
-  @Input() valor: string
+  @Input() valor: string | Observable<string>
   @Input() estilo: string
 
   constructor() {
