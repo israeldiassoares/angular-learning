@@ -7,6 +7,7 @@ import { PocAsyncComponent } from './componentes/poc/poc-async.component';
 import { PocTakeUntilComponent } from './componentes/poc/poc-take-until.component';
 import { PocTakeComponent } from './componentes/poc/poc-take.component';
 import { PocUnsubComponent } from './componentes/poc/poc-unsub.component';
+import { UnsubscribeRxjsRountingModule } from './unsubscribe-rxjs-rounting.module';
 
 
 
@@ -21,7 +22,9 @@ import { PocUnsubComponent } from './componentes/poc/poc-unsub.component';
     PocUnsubComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    /**Precisa fazer a importação do routing module para conseguir fazer o roteamento com o rounting raiz do projeto */
+    UnsubscribeRxjsRountingModule
   ]
 })
 export class UnsubscribeRxjsModule { }
