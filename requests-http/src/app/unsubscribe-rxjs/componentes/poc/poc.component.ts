@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { EnviarValorService } from './../../enviar-valor.service'
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'app-poc',
@@ -12,7 +13,7 @@ export class PocComponent implements OnInit {
 
   nome = "Componente sem unsubscribe"
   valor: string = ''
-  constructor() { }
+  constructor(private service: EnviarValorService) { }
 
   ngOnInit(): void {
   }

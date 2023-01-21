@@ -1,3 +1,4 @@
+import { EnviarValorService } from './../../enviar-valor.service';
 import { Component, OnInit } from '@angular/core'
 
 @Component({
@@ -11,7 +12,7 @@ export class PocUnsubComponent implements OnInit {
 
   nome: string = "Componente com unsubscribe"
   valor: string = ' '
-  constructor() { }
+  constructor(private service: EnviarValorService) { }
 
   ngOnInit(): void {
   }

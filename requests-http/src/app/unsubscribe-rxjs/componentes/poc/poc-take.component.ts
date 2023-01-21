@@ -1,3 +1,4 @@
+import { EnviarValorService } from './../../enviar-valor.service';
 import { Component, OnInit } from '@angular/core'
 
 @Component({
@@ -12,7 +13,7 @@ export class PocTakeComponent implements OnInit {
   nome: string = "Componente Take"
   valor: string = ''
 
-  constructor() { }
+  constructor(private service: EnviarValorService) { }
 
   ngOnInit(): void {
   }
