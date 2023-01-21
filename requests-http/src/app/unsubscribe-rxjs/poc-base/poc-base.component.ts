@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core'
   styleUrls: [ './poc-base.component.scss' ]
 })
 export class PocBaseComponent implements OnInit {
-
+  /** SEMPRE SE DESINSCREVA DOS OBSERVABLES */
   @Input() nome: string
   @Input() valor: string | Observable<string> | null
   @Input() estilo: string
