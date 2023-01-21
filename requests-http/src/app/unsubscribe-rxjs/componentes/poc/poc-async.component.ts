@@ -23,6 +23,7 @@ export class PocAsyncComponent implements OnInit, OnDestroy {
     )
   }
   ngOnDestroy(): void {
+    console.log(`${this.nome} foi destruido`)
   }
 
 }
