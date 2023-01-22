@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { EMPTY, Observable, catchError, Subject, map, switchMap, tap } from 'rxjs'
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap'
+
 import { CursosService } from './cursos.service'
 import { Curso } from './curso'
+
+import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-cursos-lista',
@@ -16,7 +20,7 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   //Subject é um observable que consegue emitir valores no RXJS
   error$ = new Subject<boolean>()
 
-  constructor(private service: CursosService) {
+  constructor(private service: CursosService, public activeModal: NgbActiveModal, private modalService: NgbModal) {
     // this.cursos = []
     this.cursos$ = new Observable<Curso[]>
   }
@@ -40,7 +44,8 @@ export class CursosListaComponent implements OnInit, OnDestroy {
           error => {
             console.error(error)
             //emitindo um valor para o error que é de next(true), sendo capturado esse valor no pipe async no template
-            this.error$.next(true)
+            // this.error$.next(true)
+            this.handlerError()
             return EMPTY
             // || return of()
           }
@@ -57,11 +62,17 @@ export class CursosListaComponent implements OnInit, OnDestroy {
       /* Ou utilizar o pipe para utilizar qualquer operador do rxjs e manipular tudo, maneiras diversas para escrever o msm código, ou subscribe ou pipes colocar o catch error como ultimo operador do pipe, assim ocorrenedo qualquer erro durante a mannipulacao consegue capturar e aplicar alguma logica utilizando o catcherror no pipe*/
       catchError(error => EMPTY)
     )
-    .subscribe(
-      dados => { console.log('caso de sucesso', dados) },
-      error => { console.log('caso de erro', error) },
-      () => console.log("Observable Completo")
-    )
+      .subscribe(
+        dados => { console.log('caso de sucesso', dados) },
+        error => { console.log('caso de erro', error) },
+        () => console.log("Observable Completo")
+      )
 
+  }
+
+  handlerError(){
+    const modalRef = this.modalService.open(AlertModalComponent);
+		modalRef.componentInstance.typeAlert = 'danger';
+    modalRef.componentInstance.message = 'Erro ao carregar cursos. Tente novamente + tarde !'
   }
 }
