@@ -1,13 +1,15 @@
-<div
-    class="alert alert-{{typeAlert}} no-margin"
-    role="alert"
->
-    {{ message }}
-    <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="alert"
-        aria-label="Close"
-        (click)="onClose()"
-    ></button>
+<div class="row">
+    <div
+        class="alert alert-{{typeAlert}} no-margin"
+        role="alert"
+    >
+        {{ message }}
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+            (click)="onClose()"
+        ></button>
+    </div>
 </div>

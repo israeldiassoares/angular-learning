@@ -1,6 +1,6 @@
+import { AlertModalService } from './../../shared/alert-modal.service';
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { EMPTY, Observable, catchError, Subject, map, switchMap, tap } from 'rxjs'
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 
 import { CursosService } from './cursos.service'
 import { Curso } from './curso'
@@ -20,7 +20,7 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   //Subject é um observable que consegue emitir valores no RXJS
   error$ = new Subject<boolean>()
 
-  constructor(private service: CursosService, public activeModal: NgbActiveModal, private modalService: NgbModal) {
+  constructor(private service: CursosService, private alertService: AlertModalService) {
     // this.cursos = []
     this.cursos$ = new Observable<Curso[]>
   }
@@ -71,8 +71,11 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   }
 
   handlerError(){
-    const modalRef = this.modalService.open(AlertModalComponent);
-		modalRef.componentInstance.typeAlert = 'danger';
-    modalRef.componentInstance.message = 'Erro ao carregar cursos. Tente novamente + tarde !'
+    this.alertService.showAlertDanger('Erro ao carregar cursos. Tente novamente + tarde !')
+    //refatorado para componente generico com chamada dinamica, código acima
+    // const modalRef = this.modalService.open(AlertModalComponent);
+		// modalRef.componentInstance.typeAlert = 'danger';
+    // modalRef.componentInstance.message = 'Erro ao carregar cursos. Tente novamente + tarde !'
   }
+
 }
