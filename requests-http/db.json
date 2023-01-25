@@ -1,6 +1,28 @@
 {
-    "cursos": [
-      { "id": 1, "nome": "Angular" },
-      { "id": 2, "nome": "Java" }
-    ]
-  }
+  "cursos": [
+    {
+      "id": 1,
+      "nome": "Angular"
+    },
+    {
+      "id": 2,
+      "nome": "Java"
+    },
+    {
+      "nome": "Material Angular",
+      "id": 3
+    },
+    {
+      "nome": "Vue",
+      "id": 4
+    },
+    {
+      "nome": "Vue 3",
+      "id": 5
+    },
+    {
+      "nome": "Material 5",
+      "id": 6
+    }
+  ]
+}

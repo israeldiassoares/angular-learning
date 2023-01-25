@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, delay } from 'rxjs';
+import { Observable, tap, delay, take } from 'rxjs';
 import { Curso } from './curso'
 import { environment } from 'src/environments/environment'
 
@@ -19,5 +19,8 @@ export class CursosService {
       delay(2000),
       tap(console.log)
     )
+  }
+  create(curso: string) {
+    return this.http.post(this.API, curso).pipe(take(1))
   }
 }
