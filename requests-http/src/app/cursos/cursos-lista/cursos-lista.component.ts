@@ -6,6 +6,7 @@ import { CursosService } from './cursos.service'
 import { Curso } from './curso'
 
 import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'app-cursos-lista',
@@ -20,7 +21,12 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   //Subject é um observable que consegue emitir valores no RXJS
   error$ = new Subject<boolean>()
 
-  constructor(private service: CursosService, private alertService: AlertModalService) {
+  constructor(
+    private service: CursosService,
+    private alertService: AlertModalService,
+    private router: Router,
+    private route: ActivatedRoute
+    ) {
     // this.cursos = []
     this.cursos$ = new Observable<Curso[]>
   }
@@ -76,6 +82,9 @@ export class CursosListaComponent implements OnInit, OnDestroy {
     // const modalRef = this.modalService.open(AlertModalComponent);
 		// modalRef.componentInstance.typeAlert = 'danger';
     // modalRef.componentInstance.message = 'Erro ao carregar cursos. Tente novamente + tarde !'
+  }
+  onEdit(id: number) {
+    this.router.navigate(['editar', id], { relativeTo: this.route})
   }
 
 }
