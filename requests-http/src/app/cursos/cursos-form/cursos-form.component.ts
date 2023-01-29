@@ -28,7 +28,7 @@ export class CursosFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    let registro = null //ERrado
+    //let registro = null //ERrado
 
     //Trabalhando com observable nao temos uma certeza de quando o código será executado
     //Codigo assincrono, nao sendo possivel iniciar valores dentro delea
@@ -48,28 +48,32 @@ export class CursosFormComponent implements OnInit {
     //Para a parte do angular devemos inicializar o formulario no constrc ou no ngOnInit
 
     //subscrib in route.params angular automaticamente faz o unsubscribe o angular monitora
-    this.route.params.pipe(
-      map((params: any) => params[ 'id' ]),
-      switchMap(id => this.service.loadById(id))
-      // switchMap(cursos => obterAulas)
-    )
-      .subscribe(curso => this.updateForm(curso))
-    //concatMap -> a ordem da requisição importa
+    //Passado todo os dados para a variável curso e feito o refac no form
+    // this.route.params.pipe(
+    //   map((params: any) => params[ 'id' ]),
+    //   switchMap(id => this.service.loadById(id))
+    //   // switchMap(cursos => obterAulas)
+    // )
+    //   .subscribe(curso => this.updateForm(curso))
+
+      //concatMap -> a ordem da requisição importa
     // mergeMap -> nao importa a ordem de requisição
     // exhaustMap -> vai fazer a requisicao e obtem a resposta antes da segunda tentativa, sincronamente req, espera a resp e parte para a segunda chamada comum em casos de login (CRUD)
+    const curso = this.route.snapshot.data[ 'curso' ]
 
     this.form = this.formBuilder.group({
-      id: [ null ],
-      nome: [ null, [ Validators.required, Validators.minLength(3), Validators.maxLength(250) ] ]
+      id: [ curso.id ],
+      nome: [ curso.nome, [ Validators.required, Validators.minLength(3), Validators.maxLength(250) ] ]
     })
   }
 
-  updateForm(curso: any) {
-    this.form.patchValue({
-      id: curso.id,
-      nome: curso.nome
-    })
-  }
+  //conteúdo do curso vai estar na variável curso que foi passado via snapshot da rota
+  // updateForm(curso: any) {
+  //   this.form.patchValue({
+  //     id: curso.id,
+  //     nome: curso.nome
+  //   })
+  // }
 
   hasError(field: string): ValidationErrors | null | undefined {
     return this.form.get(field)?.errors
