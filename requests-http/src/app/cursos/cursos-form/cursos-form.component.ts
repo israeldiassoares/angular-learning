@@ -84,26 +84,40 @@ export class CursosFormComponent implements OnInit {
     console.log(this.form.value)
     if (this.form.valid) {
       console.log('submit')
-      if (this.form.value.id) {
-        //Update
-        this.service.update(this.form.value).subscribe(
-          success => {
-            this.modal.showAlertSuccess("Curso atualizado com sucesso!")
-            this.location.back()
-          },
-          error => this.modal.showAlertDanger('Error ao atualizar curso, tente novamente !'),
-          () => console.log('update completo')
-        )
-      } else {
-        this.service.create(this.form.value).subscribe(
-          success => {
-            this.modal.showAlertSuccess("Criado com sucesso")
-            this.location.back()
-          },
-          error => this.modal.showAlertDanger('Erro ao criar curso, tente novamente.'),
-          () => console.log('request completo')
-        )
-      }
+
+      this.service.save(this.form.value).subscribe(
+        success => {
+          this.modal.showAlertSuccess("Curso atualizado com sucesso!")
+          this.location.back()
+        },
+        error => {
+          this.modal.showAlertDanger('Error ao atualizar curso, tente novamente !'),
+            () => console.log('update completo')
+        }
+      )
+
+      /** refatorado, conforme acima, logica centralziada em cursos services
+    if (this.form.value.id) {
+      //Update
+      this.service.update(this.form.value).subscribe(
+        success => {
+          this.modal.showAlertSuccess("Curso atualizado com sucesso!")
+          this.location.back()
+        },
+        error => this.modal.showAlertDanger('Error ao atualizar curso, tente novamente !'),
+        () => console.log('update completo')
+      )
+    } else {
+      this.service.create(this.form.value).subscribe(
+        success => {
+          this.modal.showAlertSuccess("Criado com sucesso")
+          this.location.back()
+        },
+        error => this.modal.showAlertDanger('Erro ao criar curso, tente novamente.'),
+        () => console.log('request completo')
+      )
+    }
+     */
     }
   }
 
