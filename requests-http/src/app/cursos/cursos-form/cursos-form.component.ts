@@ -56,7 +56,7 @@ export class CursosFormComponent implements OnInit {
     // )
     //   .subscribe(curso => this.updateForm(curso))
 
-      //concatMap -> a ordem da requisição importa
+    //concatMap -> a ordem da requisição importa
     // mergeMap -> nao importa a ordem de requisição
     // exhaustMap -> vai fazer a requisicao e obtem a resposta antes da segunda tentativa, sincronamente req, espera a resp e parte para a segunda chamada comum em casos de login (CRUD)
     const curso = this.route.snapshot.data[ 'curso' ]
@@ -84,14 +84,26 @@ export class CursosFormComponent implements OnInit {
     console.log(this.form.value)
     if (this.form.valid) {
       console.log('submit')
-      this.service.create(this.form.value).subscribe(
-        success => {
-          this.modal.showAlertSuccess("Criado com sucesso")
-          this.location.back()
-        },
-        error => this.modal.showAlertDanger('Erro ao criar curso, tente novamente.'),
-        () => console.log('request completo')
-      )
+      if (this.form.value.id) {
+        //Update
+        this.service.update(this.form.value).subscribe(
+          success => {
+            this.modal.showAlertSuccess("Curso atualizado com sucesso!")
+            this.location.back()
+          },
+          error => this.modal.showAlertDanger('Error ao atualizar curso, tente novamente !'),
+          () => console.log('update completo')
+        )
+      } else {
+        this.service.create(this.form.value).subscribe(
+          success => {
+            this.modal.showAlertSuccess("Criado com sucesso")
+            this.location.back()
+          },
+          error => this.modal.showAlertDanger('Erro ao criar curso, tente novamente.'),
+          () => console.log('request completo')
+        )
+      }
     }
   }
 
