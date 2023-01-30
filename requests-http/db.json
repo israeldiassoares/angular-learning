@@ -26,11 +26,15 @@
     },
     {
       "id": 7,
-      "nome": "React"
+      "nome": "Svelt"
     },
     {
       "id": 8,
       "nome": "WebRTC"
+    },
+    {
+      "id": 9,
+      "nome": "Kurento"
     }
   ]
 }
