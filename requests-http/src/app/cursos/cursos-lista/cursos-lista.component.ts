@@ -83,9 +83,12 @@ export class CursosListaComponent implements OnInit, OnDestroy {
 		// modalRef.componentInstance.typeAlert = 'danger';
     // modalRef.componentInstance.message = 'Erro ao carregar cursos. Tente novamente + tarde !'
   }
-  
+
   onEdit(id: number) {
     this.router.navigate(['editar', id], { relativeTo: this.route})
+  }
+  onDelete(curso: Curso) {
+    
   }
 
 }

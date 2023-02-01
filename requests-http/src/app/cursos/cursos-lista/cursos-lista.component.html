@@ -10,10 +10,10 @@
         [routerLink]="['novo']"
       >Novo Curso</button>
       <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="onRefresh()"
-    >Atualizar</button>
+        type="button"
+        class="btn btn-secondary"
+        (click)="onRefresh()"
+      >Atualizar</button>
       <button
         type="button"
         class="btn btn-secondary"
@@ -38,11 +38,17 @@
           <td>{{ curso.nome }}</td>
           <td>
             <span class="float-right">
-              <button class="btn btn-outline-warning mb-1 btn-sm" (click)="onEdit(curso.id)">
+              <button
+                class="btn btn-outline-warning mb-1 btn-sm"
+                (click)="onEdit(curso.id)"
+              >
                 Atualizar
               </button>
 
-              <button class="btn btn-outline-danger mb-1 btn-sm">
+              <button
+                class="btn btn-outline-danger mb-1 btn-sm"
+                (click)="onDelete(curso)"
+              >
                 Remover
               </button>
             </span>
@@ -84,4 +90,22 @@
       class="btn btn-primary"
     >Nao</button>
   </div>
+</ng-template>
+
+<ng-template #deleteModal>
+  <button class="btn btn-outline-primary me-2">
+    <div>Open confirm modal</div>
+    <div
+      class="text-dark"
+      aria-hidden="true"
+    ><small>&times; button will be focused</small></div>
+  </button>
+
+  <button class="btn btn-outline-primary">
+    <div>Open confirm modal with `ngbAutofocus`</div>
+    <div
+      class="text-dark"
+      aria-hidden="true"
+    ><small>Ok button will be focused</small></div>
+  </button>
 </ng-template>
