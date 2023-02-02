@@ -80,32 +80,16 @@
 
 <ng-template #deleteModal>
   <div class="modal-body text-center">
-    <p>Tem certeza que deseja remover esse curso?</p>
+    <p>Tem certeza que deseja remover esse curso ?</p>
     <button
       type="button"
       class="btn btn-default"
+      (click)="onConfirmDelete()"
     >Sim</button>
     <button
       type="button"
       class="btn btn-primary"
-    >Nao</button>
+      (click)="onDeclineDelete()"
+    >Não</button>
   </div>
-</ng-template>
-
-<ng-template #deleteModal>
-  <button class="btn btn-outline-primary me-2">
-    <div>Open confirm modal</div>
-    <div
-      class="text-dark"
-      aria-hidden="true"
-    ><small>&times; button will be focused</small></div>
-  </button>
-
-  <button class="btn btn-outline-primary">
-    <div>Open confirm modal with `ngbAutofocus`</div>
-    <div
-      class="text-dark"
-      aria-hidden="true"
-    ><small>Ok button will be focused</small></div>
-  </button>
 </ng-template>

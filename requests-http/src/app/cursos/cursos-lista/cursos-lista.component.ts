@@ -1,11 +1,12 @@
-import { AlertModalService } from './../../shared/alert-modal.service';
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { AlertModalService } from './../../shared/alert-modal.service'
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { EMPTY, Observable, catchError, Subject, map, switchMap, tap } from 'rxjs'
 
 import { CursosService } from './cursos.service'
 import { Curso } from './curso'
 
-import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal'
+// import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component'
 import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
@@ -16,17 +17,22 @@ import { ActivatedRoute, Router } from '@angular/router'
 })
 export class CursosListaComponent implements OnInit, OnDestroy {
   // cursos: Curso[]
-
   cursos$: Observable<Curso[]>
   //Subject é um observable que consegue emitir valores no RXJS
   error$ = new Subject<boolean>()
+
+  deleteModalRef = BsModalRef;
+  @ViewChild('deleteModal') deleteModal: any
+
+  cursoSelecionado: Curso = { id: 0, nome: '' }
 
   constructor(
     private service: CursosService,
     private alertService: AlertModalService,
     private router: Router,
-    private route: ActivatedRoute
-    ) {
+    private route: ActivatedRoute,
+    private modalService: BsModalService
+  ) {
     // this.cursos = []
     this.cursos$ = new Observable<Curso[]>
   }
@@ -76,19 +82,37 @@ export class CursosListaComponent implements OnInit, OnDestroy {
 
   }
 
-  handlerError(){
+  handlerError() {
     this.alertService.showAlertDanger('Erro ao carregar cursos. Tente novamente + tarde !')
     //refatorado para componente generico com chamada dinamica, código acima
     // const modalRef = this.modalService.open(AlertModalComponent);
-		// modalRef.componentInstance.typeAlert = 'danger';
+    // modalRef.componentInstance.typeAlert = 'danger';
     // modalRef.componentInstance.message = 'Erro ao carregar cursos. Tente novamente + tarde !'
   }
 
   onEdit(id: number) {
-    this.router.navigate(['editar', id], { relativeTo: this.route})
+    this.router.navigate([ 'editar', id ], { relativeTo: this.route })
   }
   onDelete(curso: Curso) {
-    
+    this.cursoSelecionado = curso
+
+    this.deleteModalRef = this.modalService.show(this.deleteModal, { class: 'modal-sm' })
+  }
+
+  onConfirmDelete() {
+    this.service.remove(this.cursoSelecionado.id).subscribe(
+      success => {
+        this.onRefresh(),
+          this.deleteModalRef.hide()
+      },
+      error => {
+        this.alertService.showAlertDanger("Erro ao remover o curso, Tente novamente!"),
+          this.deleteModalRef.hide()
+      }
+    )
+  }
+  onDeclineDelete() {
+    this.deleteModalRef.hide()
   }
 
 }
