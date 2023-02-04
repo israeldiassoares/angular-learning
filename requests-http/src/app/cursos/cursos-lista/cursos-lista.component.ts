@@ -5,7 +5,6 @@ import { EMPTY, Observable, catchError, Subject, map, switchMap, tap } from 'rxj
 import { CursosService } from './cursos.service'
 import { Curso } from './curso'
 
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal'
 // import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component'
 import { ActivatedRoute, Router } from '@angular/router'
 
@@ -21,8 +20,10 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   //Subject é um observable que consegue emitir valores no RXJS
   error$ = new Subject<boolean>()
 
-  deleteModalRef = BsModalRef;
-  @ViewChild('deleteModal') deleteModal: any
+  // deleteModalRef: BsModalRef;
+
+
+  @ViewChild('deleteModal', { static: true }) deleteModal: any
 
   cursoSelecionado: Curso = { id: 0, nome: '' }
 
@@ -31,10 +32,11 @@ export class CursosListaComponent implements OnInit, OnDestroy {
     private alertService: AlertModalService,
     private router: Router,
     private route: ActivatedRoute,
-    private modalService: BsModalService
+    // private modalService: BsModalService
   ) {
     // this.cursos = []
     this.cursos$ = new Observable<Curso[]>
+    // this.deleteModalRef = new BsModalRef<unknown>
   }
 
   ngOnInit(): void {
@@ -96,23 +98,27 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   onDelete(curso: Curso) {
     this.cursoSelecionado = curso
 
-    this.deleteModalRef = this.modalService.show(this.deleteModal, { class: 'modal-sm' })
+    // this.deleteModalRef = this.modalService.show(this.deleteModal, { class: 'modal-sm' })
+
   }
 
-  onConfirmDelete() {
-    this.service.remove(this.cursoSelecionado.id).subscribe(
-      success => {
-        this.onRefresh(),
-          this.deleteModalRef.hide()
-      },
-      error => {
-        this.alertService.showAlertDanger("Erro ao remover o curso, Tente novamente!"),
-          this.deleteModalRef.hide()
-      }
-    )
+  onConfirmDelete(curso: Curso) {
+    this.cursoSelecionado = curso
+
+    this.service.remove(this.cursoSelecionado.id)
+      .subscribe(
+        success => {
+          this.onRefresh()
+            // this.deleteModalRef.hide()
+        },
+        error => {
+          this.alertService.showAlertDanger("Erro ao remover o curso, Tente novamente!")
+            // this.deleteModalRef.hide()
+        }
+      )
   }
   onDeclineDelete() {
-    this.deleteModalRef.hide()
+    // this.deleteModalRef.hide()
   }
 
 }
