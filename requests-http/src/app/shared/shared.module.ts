@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlertModalComponent } from './alert-modal/alert-modal.component';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap'
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 
 
 @NgModule({
   declarations: [
-    AlertModalComponent
+    AlertModalComponent,
+    ConfirmModalComponent
   ],
   imports: [
-    CommonModule,
-    NgbModalModule
+    CommonModule
   ],
   exports:[
     AlertModalComponent

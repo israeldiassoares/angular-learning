@@ -98,6 +98,8 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   onDelete(curso: Curso) {
     this.cursoSelecionado = curso
 
+      this.alertService.showConfirm('Confirmação', "Tem certeza que deseja remover esse curso?", "Sim", "Tá Louco")
+
     // this.deleteModalRef = this.modalService.show(this.deleteModal, { class: 'modal-sm' })
 
   }

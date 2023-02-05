@@ -1,6 +1,6 @@
+import { BsModalRef } from 'ngx-bootstrap/modal'
 import { Component, Input, OnInit } from '@angular/core'
 
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-alert-modal',
@@ -13,14 +13,14 @@ export class AlertModalComponent implements OnInit {
   @Input() message: string
   @Input() typeAlert: string
 
-  constructor(public activeModal: NgbActiveModal) {
+  constructor(public activeModal: BsModalRef) {
     this.message = ''
     this.typeAlert = 'success'
   }
 
   ngOnInit(): void {
   }
-  onClose(){
-    this.activeModal.close();
+  onClose() {
+    this.activeModal.hide()
   }
 }
