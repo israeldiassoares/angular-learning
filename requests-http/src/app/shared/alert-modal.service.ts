@@ -42,12 +42,14 @@ export class AlertModalService {
   showConfirm(title: string, msg: string, okText?: string, cancelText?: string) {
     const bsModalRef: BsModalRef = this.modalService.show(ConfirmModalComponent)
     bsModalRef.content.title = title
-    bsModalRef.content.msg = msg
+    bsModalRef.content.msgBody = msg
     if (okText) {
       bsModalRef.content.okText = okText
     }
-    if(cancelText) {
+    if (cancelText) {
       bsModalRef.content.cancelText = cancelText
     }
+
+    return (<ConfirmModalComponent>bsModalRef.content).confirmResult
   }
 }

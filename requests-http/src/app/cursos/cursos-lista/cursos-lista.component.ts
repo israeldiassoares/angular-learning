@@ -1,9 +1,10 @@
 import { AlertModalService } from './../../shared/alert-modal.service'
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { EMPTY, Observable, catchError, Subject, map, switchMap, tap } from 'rxjs'
+import { EMPTY, Observable, catchError, Subject, map, switchMap, tap, take } from 'rxjs'
 
 import { CursosService } from './cursos.service'
 import { Curso } from './curso'
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal'
 
 // import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -20,7 +21,7 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   //Subject é um observable que consegue emitir valores no RXJS
   error$ = new Subject<boolean>()
 
-  // deleteModalRef: BsModalRef;
+  deleteModalRef: BsModalRef
 
 
   @ViewChild('deleteModal', { static: true }) deleteModal: any
@@ -32,11 +33,11 @@ export class CursosListaComponent implements OnInit, OnDestroy {
     private alertService: AlertModalService,
     private router: Router,
     private route: ActivatedRoute,
-    // private modalService: BsModalService
+    private modalService: BsModalService
   ) {
     // this.cursos = []
     this.cursos$ = new Observable<Curso[]>
-    // this.deleteModalRef = new BsModalRef<unknown>
+    this.deleteModalRef = new BsModalRef<unknown>
   }
 
   ngOnInit(): void {
@@ -95,32 +96,45 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   onEdit(id: number) {
     this.router.navigate([ 'editar', id ], { relativeTo: this.route })
   }
+
   onDelete(curso: Curso) {
     this.cursoSelecionado = curso
 
-      this.alertService.showConfirm('Confirmação', "Tem certeza que deseja remover esse curso?", "Sim", "Tá Louco")
+    const result$ = this.alertService.showConfirm('Confirmação', "Tem certeza que deseja remover esse curso?", "SiIim", "Tá Louco")
+    result$.asObservable().pipe(
+      take(1),
+      //Caso seja falso EMPTY o observable para por aqui, nao é executado o Subscribe success/error. APenas é executando quando sucesso no result
+      switchMap(result => result ? this.service.remove(curso.id) : EMPTY)
+    ).subscribe(
+      success => {
+        this.onRefresh()
+      },
+      error => {
+        this.alertService.showAlertDanger('Erro ao remover curso, Tente novamente mais tarde')
+      }
+    )
 
     // this.deleteModalRef = this.modalService.show(this.deleteModal, { class: 'modal-sm' })
 
   }
 
-  onConfirmDelete(curso: Curso) {
-    this.cursoSelecionado = curso
+  onConfirmDelete() {
 
     this.service.remove(this.cursoSelecionado.id)
       .subscribe(
         success => {
           this.onRefresh()
-            // this.deleteModalRef.hide()
+          this.deleteModalRef.hide()
         },
         error => {
           this.alertService.showAlertDanger("Erro ao remover o curso, Tente novamente!")
-            // this.deleteModalRef.hide()
+          this.deleteModalRef.hide()
         }
       )
   }
+
   onDeclineDelete() {
-    // this.deleteModalRef.hide()
+    this.deleteModalRef.hide()
   }
 
 }

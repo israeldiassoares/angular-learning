@@ -20,6 +20,7 @@ export class AlertModalComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   onClose() {
     this.activeModal.hide()
   }
