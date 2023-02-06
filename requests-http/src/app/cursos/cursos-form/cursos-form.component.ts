@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router'
 import { AlertModalService } from './../../shared/alert-modal.service'
-import { CursosService } from './../cursos-lista/cursos.service'
+import { CursosService } from '../cursos.service'
 import { Component, OnInit } from '@angular/core'
 import { Location } from '@angular/common'
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms'

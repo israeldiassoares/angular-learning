@@ -1,5 +1,5 @@
-import { CursosService } from './../cursos-lista/cursos.service'
-import { Curso } from './../cursos-lista/curso'
+import { CursosService } from '../cursos.service'
+import { Curso } from '../curso'
 import { Injectable } from '@angular/core'
 import { ActivatedRouteSnapshot, CanActivate, Resolve, RouterStateSnapshot, UrlTree } from '@angular/router'
 import { Observable, of } from 'rxjs'

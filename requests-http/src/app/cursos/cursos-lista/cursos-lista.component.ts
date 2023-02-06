@@ -2,8 +2,8 @@ import { AlertModalService } from './../../shared/alert-modal.service'
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { EMPTY, Observable, catchError, Subject, map, switchMap, tap, take } from 'rxjs'
 
-import { CursosService } from './cursos.service'
-import { Curso } from './curso'
+import { CursosService } from '../cursos.service'
+import { Curso } from '../curso'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal'
 
 // import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component'
