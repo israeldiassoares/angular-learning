@@ -1,3 +1,4 @@
+import { Cursos2Service } from './../cursos2.service';
 import { AlertModalService } from './../../shared/alert-modal.service'
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { EMPTY, Observable, catchError, Subject, map, switchMap, tap, take } from 'rxjs'
@@ -29,7 +30,7 @@ export class CursosListaComponent implements OnInit, OnDestroy {
   cursoSelecionado: Curso = { id: 0, nome: '' }
 
   constructor(
-    private service: CursosService,
+    private service: Cursos2Service,
     private alertService: AlertModalService,
     private router: Router,
     private route: ActivatedRoute,

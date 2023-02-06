@@ -1,3 +1,4 @@
+import { Record } from './record'
 import { Observable, delay, take, tap } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 export class CrudService<T> {
@@ -21,12 +22,12 @@ export class CrudService<T> {
     return this.http.post(this.API_URL, record).pipe(take(1))
   }
   //Update
-  private update(record: T) {
+  private update(record: Record) {
     return this.http.put(`${this.API_URL}/${record[ 'id' ]}`, record).pipe(take(1))
   }
   // save
-  save(record: T) {
-    return record[ 'id' ] ? this.update(record) : this.create(record)
+  save(record: Record) {
+    return record[ 'id' ] ? this.update(record) : this.create(<T>record)
   }
   //Delete
   remove(id: number) {
