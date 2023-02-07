@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UploadFileModule } from './upload-file/upload-file.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     ModalModule.forRoot(),
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    UploadFileModule
   ],
   providers: [ ],
   bootstrap: [AppComponent]

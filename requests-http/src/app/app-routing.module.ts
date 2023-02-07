@@ -5,7 +5,8 @@ import { RouterModule, Routes } from '@angular/router'
 const routes: Routes = [
   { path: 'rxjs-poc', loadChildren: () => import('./unsubscribe-rxjs/unsubscribe-rxjs.module').then(c => c.UnsubscribeRxjsModule) },
   { path: '', pathMatch: 'full', redirectTo: 'cursos' },
-  { path: 'cursos', loadChildren: () => import('./cursos/cursos.module').then(c => c.CursosModule) }
+  { path: 'cursos', loadChildren: () => import('./cursos/cursos.module').then(c => c.CursosModule) },
+  { path: 'upload', loadChildren: () => import('./upload-file/upload-file.module').then(u => u.UploadFileModule) }
 ]
 
 @NgModule({
