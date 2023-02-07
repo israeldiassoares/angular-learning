@@ -1,3 +1,16 @@
-<p>
-  upload-file works!
-</p>
+<div class="mt-5">
+  <div class="mb-3">
+    <label
+      for="formFileMultiple"
+      class="form-label"
+      id="customFileLabel"
+    >Selecionar Arquivo</label>
+    <input
+      class="form-control"
+      type="file"
+      id="formFileMultiple"
+      (change)="onChange($event)"
+      multiple
+    >
+  </div>
+</div>
