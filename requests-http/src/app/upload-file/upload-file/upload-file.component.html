@@ -1,5 +1,5 @@
 <div class="mt-5">
-  <div class="mb-3">
+  <div class="custom-file mb-3">
     <label
       for="formFileMultiple"
       class="form-label"
@@ -14,3 +14,9 @@
     >
   </div>
 </div>
+<div class="mt-4"><button
+    type="button"
+    class="btn btn-primary"
+    (click)="onUpload()"
+    [disabled]="!files"
+    >Subir arquivo !</button></div>
