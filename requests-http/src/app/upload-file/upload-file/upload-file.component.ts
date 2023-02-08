@@ -38,7 +38,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   onUpload() {
-    this.uploadFile = this.service.upload(this.files, 'http://localhost:9000/upload')
+    this.uploadFile = this.service.upload(this.files, '/api/upload')
     if (this.files && this.files.size > 0) {
       this.uploadFile.subscribe(response => console.log('uploadConcluido', response))
       //como está usando cors utilizar take(1) nao é funcional, pois o cors faz uma primeira chamada verificando a conexao, e em seguida faz uma segunda chamada aonde realmente passa a informação.
