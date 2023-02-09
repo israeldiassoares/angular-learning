@@ -14,7 +14,12 @@
     >
   </div>
 </div>
-<div class="mt-4"><button
+
+<div class="progress my-3" >
+  <div class="progress-bar bg-success" role="progressbar" [style.width]="progress+'%'">{{progress}} %</div>
+</div>
+
+<div class=""><button
     type="button"
     class="btn btn-primary"
     (click)="onUpload()"
