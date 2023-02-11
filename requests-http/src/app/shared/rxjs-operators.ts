@@ -3,13 +3,17 @@ import { filter, map, pipe, tap } from 'rxjs'
 
 export function filterResponse<T>() {
   return pipe(
-    uploadProgress(progress => {
-      console.log('progress', progress)
-      progress = progress
-    }),
     filter((event: any) => event.type === HttpEventType.Response),
-    map((resposta: HttpResponse<T>) => resposta.body)
+    map((res: HttpResponse<T>) => res.body)
   )
+  // return pipe(
+  //   uploadProgress((progress: number) => {
+  //     console.log('progress', progress)
+  //     this.progress = progress
+  //   }),
+  //   filter((event: any) => event.type === HttpEventType.Response),
+  //   map((resposta: HttpResponse<T>) => resposta.body)
+  // )
 }
 
 export function uploadProgress<T>(cb: (progress: number) => void) {

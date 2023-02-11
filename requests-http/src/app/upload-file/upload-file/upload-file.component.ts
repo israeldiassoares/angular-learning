@@ -2,7 +2,7 @@ import { HttpEvent, HttpEventType, HttpResponse, HttpSentEvent } from '@angular/
 import { Observable } from 'rxjs'
 import { UploadFileService } from './../upload-file.service'
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { filterResponse } from 'src/app/shared/rxjs-operators'
+import { filterResponse, uploadProgress } from 'src/app/shared/rxjs-operators'
 
 @Component({
   selector: 'app-upload-file',
@@ -13,7 +13,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   //Estrutura de dados Set faz a filtragem dos arquivos fazendo submiter apenas uma cóppia do registro, não havendo registros duplicados. Caso seja Necessario utilizar array
   files: Set<File>
-  progress = 0
+  progress:number = 0
 
   constructor(private service: UploadFileService) {
     this.files = new Set()
@@ -41,7 +41,11 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
     if (this.files && this.files.size > 0) {
       this.service.upload(this.files, '/api/upload')
-        .pipe(
+       .pipe(
+          uploadProgress(progress => {
+            console.log(progress);
+            this.progress = progress;
+          }),
           filterResponse()
         )
         .subscribe(response => console.log('uploadConcluido', event))
