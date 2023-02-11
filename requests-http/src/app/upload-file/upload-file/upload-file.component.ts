@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment.prod'
 import { HttpEvent, HttpEventType, HttpResponse, HttpSentEvent } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { UploadFileService } from './../upload-file.service'
@@ -13,7 +14,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   //Estrutura de dados Set faz a filtragem dos arquivos fazendo submiter apenas uma cóppia do registro, não havendo registros duplicados. Caso seja Necessario utilizar array
   files: Set<File>
-  progress:number = 0
+  progress: number = 0
 
   constructor(private service: UploadFileService) {
     this.files = new Set()
@@ -40,15 +41,17 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   onUpload() {
 
     if (this.files && this.files.size > 0) {
-      this.service.upload(this.files, '/api/upload')
-       .pipe(
+      this.service.upload(this.files, '/upload')
+        .pipe(
           uploadProgress(progress => {
-            console.log(progress);
-            this.progress = progress;
+            console.log(progress)
+            this.progress = progress
           }),
           filterResponse()
         )
         .subscribe(response => console.log('uploadConcluido', event))
+
+      //Refatorado para rxjs customizado de operacao de upload
       // .subscribe(
       //   (event: any) => {
       //     if (event.type === HttpEventType.Response) {
@@ -64,8 +67,21 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): void { }
 
+  //download de arquivo angular nao lhe da com o download, tendo que usar js puro, browser que administra o download
+  onDownloadExcel() {
+    this.service.download(environment.BASE_URL + '/donwloadExcel')
+      .subscribe((res: any) => {
+        this.service.handleFile(res, 'report.xlsx')
+      })
   }
 
+
+  onDownloadPDF() {
+    this.service.download(environment.BASE_URL + '/donwloadPDF')
+      .subscribe((res: any) => {
+        this.service.handleFile(res, 'report.pdf')
+      })
+  }
 }

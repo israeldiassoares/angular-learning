@@ -28,6 +28,15 @@ app.post('/upload', multipartMiddleware, (req, res)=>{
   res.json({message: files})
 })
 
+//Download files EP
+app.get('/donwloadExcel', multipartMiddleware,(req, res)=> {
+  res.download("./uploads/report.xlsx")
+})
+
+app.get('/donwloadPDF', multipartMiddleware,(req, res)=> {
+  res.download("./uploads/report.pdf")
+})
+
 app.use((err, req, res, next)=> res.json({error: err.message}))
 
 
