@@ -6,10 +6,11 @@
           type="text"
           id="myInput"
           class="form-control"
+          [formControl]="queryField"
           placeholder="Pesquisar libs"
         >
       </div>
-      <div class="col-auto"><button class="btn btn-lg btn-success">Pesquisar</button></div>
+      <div class="col-auto"><button class="btn btn-lg btn-success" (click)="onSearch()">Pesquisar</button></div>
     </div>
   </div>
   <div class="search-list">
