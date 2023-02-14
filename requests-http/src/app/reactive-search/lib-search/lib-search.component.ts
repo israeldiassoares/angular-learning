@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
-import { Observable, map, tap } from 'rxjs'
+import { Observable, debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs'
 import { Component, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 
@@ -8,12 +8,15 @@ import { FormControl } from '@angular/forms'
   templateUrl: './lib-search.component.html',
   styleUrls: [ './lib-search.component.scss' ]
 })
+
 export class LibSearchComponent implements OnInit {
 
   queryField = new FormControl()
   readonly SEARCH_URL = 'https://api.cdnjs.com/libraries'
   results$: Observable<any>
   total: number
+  readonly FIELDS = `filename,description,version,github`
+
 
   constructor(private http: HttpClient) {
     this.results$ = new Observable()
@@ -21,10 +24,26 @@ export class LibSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //retorna observable e retorna cada mudanca que ocorre no campo
+    this.results$ = this.queryField.valueChanges.pipe(
+      map(value => value.trim()),
+      filter(value => value.length >= 3),
+      debounceTime(200),
+      distinctUntilChanged(),
+      // tap(value => console.log(value)),
+      //Transforma em um outro observable, cancela a ultima requisicao que nao foi completada e foca apenas em receber a ultima
+      switchMap(value => this.http.get(this.SEARCH_URL, {
+        params: {
+          search: value,
+          fields: this.FIELDS
+        }
+      })),
+      tap((response: any) => this.total = response.total),
+      map((res: any)=> res.results)
+    )
   }
   //TODO criar um checkbox visual para usuario filtrar os campos a ser mostrado
   onSearch() {
-    const fields = `filename,description,version,github`
     let value = this.queryField.value
     if (value && (value = value.trim()) !== '') {
       //http tradicional
@@ -37,12 +56,12 @@ export class LibSearchComponent implements OnInit {
       //methodo angular com parametros fixos
       const paramsFixo = {
         search: value,
-        fields: fields
+        fields: this.FIELDS
       }
       //criacao de parametros dinamico
       let params = new HttpParams()
       params = params.set('search', value)
-      params = params.set('fields', fields)
+      params = params.set('fields', this.FIELDS)
       // params.append('novoValor', novoValor)
 
       //TODO criar servico para chamadas
