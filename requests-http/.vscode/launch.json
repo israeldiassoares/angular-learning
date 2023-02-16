@@ -2,9 +2,6 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-
-
-
     {
       "name": "angular chrome",
       "type": "pwa-chrome",
@@ -18,6 +15,17 @@
       "request": "launch",
       "preLaunchTask": "npm: test",
       "url": "http://localhost:9876/debug.html"
+    },
+    {
+      "name": "Docker Node.js Launch",
+      "type": "docker",
+      "request": "launch",
+      "preLaunchTask": "docker-run: debug",
+      "platform": "node",
+      "node": {
+        "package": "${workspaceFolder}/node_modules/mimic-fn/package.json",
+        "localRoot": "${workspaceFolder}/node_modules/mimic-fn"
+      }
     }
   ]
 }

@@ -37,6 +37,47 @@
           }
         }
       }
+    },
+    {
+      "type": "docker-build",
+      "label": "docker-build",
+      "platform": "node",
+      "dockerBuild": {
+        "dockerfile": "${workspaceFolder}/node_modules/mimic-fn/Dockerfile",
+        "context": "${workspaceFolder}/node_modules/mimic-fn",
+        "pull": true
+      },
+      "node": {
+        "package": "${workspaceFolder}/node_modules/mimic-fn/package.json"
+      }
+    },
+    {
+      "type": "docker-run",
+      "label": "docker-run: release",
+      "dependsOn": [
+        "docker-build"
+      ],
+      "platform": "node",
+      "node": {
+        "package": "${workspaceFolder}/node_modules/mimic-fn/package.json"
+      }
+    },
+    {
+      "type": "docker-run",
+      "label": "docker-run: debug",
+      "dependsOn": [
+        "docker-build"
+      ],
+      "dockerRun": {
+        "env": {
+          "DEBUG": "*",
+          "NODE_ENV": "development"
+        }
+      },
+      "node": {
+        "package": "${workspaceFolder}/node_modules/mimic-fn/package.json",
+        "enableDebugging": true
+      }
     }
   ]
 }
