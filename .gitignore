@@ -1,3 +1,5 @@
 *.pdf
 .vscode
 .angulardoc.json
+
+**/package-lock.json
