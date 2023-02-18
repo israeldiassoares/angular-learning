@@ -20,8 +20,6 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataSource = this.courses
-    this.displayedColumns = [ 'name', 'category' ]
   }
 
 }
