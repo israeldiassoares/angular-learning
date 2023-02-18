@@ -17,7 +17,6 @@ export class CoursesService {
       .pipe(
         //finaliza a inscricação no subscribe assim q receber o retorno do servidor
         first(),
-        delay(5000),
         tap(courses => console.log('cursos', courses))
       )
   }
