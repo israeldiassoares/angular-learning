@@ -1,5 +1,8 @@
 package com.israelsoares.crudspring.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +17,8 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("_id")//Transforma de id> _id(enviando) e de _id to id(recebendo)
+    @JsonIgnore
     private long id;
 
     // @Column(name="nome")
