@@ -26,6 +26,8 @@ public class CourseController {
     // @RequestMapping(method = RequestMethod.GET) msm coisa que o GetMapping
     @GetMapping
     public List<Course> list() {
+        //public @ResponseBody List<Course> list() a lista é um response body e essa éa marcação no spring FasterXML responsável pelo Marshalling and Unmarshalling
         return courseRepository.findAll();
     };
+  //  “Unmarshalling” is the process of converting some kind of a lower-level representation, often a “wire format”, into a higher-level (object) structure. Other popular names for it are “Deserialization” or “Unpickling”.
 }
