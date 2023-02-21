@@ -24,7 +24,7 @@
           </td>
         </ng-container>
 
-        <!-- Name Column -->
+        <!-- Category Column -->
         <ng-container matColumnDef="category">
           <th
             mat-header-cell
@@ -40,6 +40,38 @@
               aria-label="Categoria do curso"
             >{{ course.category | category }}</mat-icon>
           </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>
+            <button
+              mat-mini-fab
+              color="primary"
+              aria-label="Adicionar um curso"
+              (click)="onAdd()"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </mat-header-cell>
+
+          <mat-cell *matCellDef="let course">
+            <button
+              mat-icon-button
+              color="secondary"
+              aria-label="Editar curso"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Remover curso"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
         </ng-container>
 
         <tr
