@@ -2,9 +2,9 @@ package com.israelsoares.crudspring.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.israelsoares.crudspring.model.Course;
 import com.israelsoares.crudspring.repository.CourseRepository;
@@ -25,9 +25,20 @@ public class CourseController {
 
     // @RequestMapping(method = RequestMethod.GET) msm coisa que o GetMapping
     @GetMapping
-    public List<Course> list() {
+    public @ResponseBody List<Course> list() {
         //public @ResponseBody List<Course> list() a lista é um response body e essa éa marcação no spring FasterXML responsável pelo Marshalling and Unmarshalling
         return courseRepository.findAll();
     };
   //  “Unmarshalling” is the process of converting some kind of a lower-level representation, often a “wire format”, into a higher-level (object) structure. Other popular names for it are “Deserialization” or “Unpickling”.
+
+
+    @ResponseStatus(code = HttpStatus.CREATED)
+    @PostMapping //@RequestMapping(method = RequestMethod.POST)
+    public Course create(@RequestBody Course course) {
+        // public ResponseEntity<Course> create(@RequestBody Course course)
+        //System.out.println(course.getName());
+       //return ResponseEntity.status(HttpStatus.CREATED).body(courseRepository.save(course));
+        return courseRepository.save(course);
+    };
 }
+
