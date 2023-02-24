@@ -22,6 +22,10 @@ export class CoursesService {
       )
   }
 
+  listById(id: string) {
+    return this.httpClient.get<Course>(`${this.API }/${id}`)
+  }
+
   save(record: Partial<Course>): Observable<Course> {
     return this.httpClient.post<Course>(
       this.API,
