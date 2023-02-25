@@ -35,7 +35,7 @@ export class CoursesService {
   }
 
   private update(course: Partial<Course>):Observable<Course> {
-    return this.httpClient.put<Course>(this.API, course).pipe(first())
+    return this.httpClient.put<Course>(`${this.API}/${course._id}`, course).pipe(first())
   }
 
 }
