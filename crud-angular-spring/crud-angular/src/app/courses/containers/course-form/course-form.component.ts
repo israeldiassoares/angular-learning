@@ -1,9 +1,11 @@
-import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Course } from './../../model/course'
+import { ActivatedRoute } from '@angular/router'
+import { Location } from '@angular/common'
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, NonNullableFormBuilder, Validators } from '@angular/forms'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
-import { CoursesService } from '../../services/courses.service';
+import { CoursesService } from '../../services/courses.service'
 
 @Component({
   selector: 'app-course-form',
@@ -13,6 +15,7 @@ import { CoursesService } from '../../services/courses.service';
 export class CourseFormComponent implements OnInit {
 
   form = this.formBuilder.group({
+    _id: [ '' ],
     name: [ '' ],
     category: [ '' ]
   });
@@ -21,10 +24,14 @@ export class CourseFormComponent implements OnInit {
     private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
     private _snackBar: MatSnackBar,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const course: Course = this.route.snapshot.data[ 'course' ]
+    this.form.setValue({ _id: course._id, name: course.name, category: course.category.toLocaleLowerCase() })
+  }
 
   onSubmit() {
     this.service.save(this.form.value)
