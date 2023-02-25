@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { first, Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { first, Observable, tap } from 'rxjs'
 
-import { Course } from './../model/course';
+import { Course } from './../model/course'
 
 @Injectable({
   providedIn: 'root'
@@ -23,16 +23,19 @@ export class CoursesService {
   }
 
   listById(id: string) {
-    return this.httpClient.get<Course>(`${this.API }/${id}`)
+    return this.httpClient.get<Course>(`${this.API}/${id}`)
   }
 
   save(record: Partial<Course>): Observable<Course> {
-    return this.httpClient.post<Course>(
-      this.API,
-      record
-    ).pipe(
-      first()
-    )
+    return record._id ? this.update(record) : this.create(record)
+  }
+
+  private create(record: Partial<Course>): Observable<Course> {
+    return this.httpClient.post<Course>(this.API, record).pipe(first())
+  }
+
+  private update(course: Partial<Course>):Observable<Course> {
+    return this.httpClient.put<Course>(this.API, course).pipe(first())
   }
 
 }
