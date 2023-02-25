@@ -15,10 +15,10 @@ import lombok.Data;
 @Entity
 public class Course {
 
+    // @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("_id")//Transforma de id> _id(enviando) e de _id to id(recebendo)
-    @JsonIgnore
     private long id;
 
     // @Column(name="nome")
