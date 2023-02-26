@@ -18,11 +18,11 @@ export class CoursesService {
       .pipe(
         //finaliza a inscricação no subscribe assim q receber o retorno do servidor
         first(),
-        tap(courses => console.log('cursos', courses))
+        // tap(courses => console.log('cursos', courses))
       )
   }
 
-  listById(id: string) {
+  listById(id: string): Observable<Course> {
     return this.httpClient.get<Course>(`${this.API}/${id}`)
   }
 
@@ -34,8 +34,16 @@ export class CoursesService {
     return this.httpClient.post<Course>(this.API, record).pipe(first())
   }
 
-  private update(course: Partial<Course>):Observable<Course> {
+  private update(course: Partial<Course>): Observable<Course> {
     return this.httpClient.put<Course>(`${this.API}/${course._id}`, course).pipe(first())
   }
+
+
+  delete(id: string): Observable<Course> {
+    console.log('to no servicos', id)
+    // return this.httpClient.delete<Course>(`${this.API}/${id}`).pipe(first())
+    return this.httpClient.delete<Course>(`${this.API}/${id}`).pipe(first())
+  }
+
 
 }
