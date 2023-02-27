@@ -11,24 +11,27 @@ import com.israelsoares.crudspring.repository.CourseRepository;
 @SpringBootApplication
 public class CrudSpringApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CrudSpringApplication.class, args);
-	}
 
-	// Spring inicializou, vai executar a lógica que tem dentro desse @bean
-	// (avisando q spring gerencie todo o ciclo de vida)
-	@Bean
-	CommandLineRunner initDataBase(CourseRepository courseRepository){
-		return args -> {
-			courseRepository.deleteAll();
 
-			Course newCourse = new Course();
+    public static void main(String[] args) {
+        SpringApplication.run(CrudSpringApplication.class, args);
+    }
 
-			newCourse.setName("Angular Spring");
+    // Spring inicializou, vai executar a lógica que tem dentro desse @bean
+    // (avisando q spring gerencie todo o ciclo de vida)
+    @Bean
+    CommandLineRunner initDataBase(CourseRepository courseRepository) {
+        return args -> {
+            courseRepository.deleteAll();
 
-			newCourse.setCategory("Front-End");
+            Course newCourse = new Course();
 
-			courseRepository.save(newCourse);
-		};
-	}
+            newCourse.setName("Angular Spring");
+
+            newCourse.setCategory("Front-end");
+
+            courseRepository.save(newCourse);
+        };
+    }
+
 }
