@@ -58,7 +58,7 @@ export class CoursesComponent implements OnInit {
   }
 
   onDelete(course: Course) {
-    this.onConfirm(course, 'Exclusão registro', "Confirmar exclusão de:")
+    this.onConfirm(course, `Exclusão registro ${course.name}`, `Confirmar exclusão de: ${course.name}`)
   }
   // this.onConfirm(course, 'Quer Deletar', 'vai deletar mesmo ?');
 
