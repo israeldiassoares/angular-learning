@@ -38,7 +38,6 @@ export class CoursesService {
     return this.httpClient.put<Course>(`${this.API}/${course._id}`, course).pipe(first())
   }
 
-
   delete(id: string): Observable<Course> {
     console.log('to no servicos', id)
     // return this.httpClient.delete<Course>(`${this.API}/${id}`).pipe(first())
