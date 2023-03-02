@@ -1,5 +1,6 @@
 package com.israelsoares.crudspring.services;
 
+import com.israelsoares.crudspring.exception.RecordNotFoundException;
 import com.israelsoares.crudspring.model.Course;
 import com.israelsoares.crudspring.repository.CourseRepository;
 import jakarta.validation.Valid;
@@ -28,8 +29,8 @@ public class CourseService {
     }
     //  “Unmarshalling” is the process of converting some kind of a lower-level representation, often a “wire format”, into a higher-level (object) structure. Other popular names for it are “Deserialization” or “Unpickling”.
 
-    public Optional<Course> findById(@PathVariable @NotNull @Positive Long id) {
-        return courseRepository.findById(id);
+    public Course findById(@PathVariable @NotNull @Positive Long id) {
+        return courseRepository.findById(id).orElseThrow(()-> new RecordNotFoundException(id));
     }
 
     public Course create(@Valid Course course) {
@@ -39,12 +40,8 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
-    public Optional<Course> update(@NotNull @Positive Long id, @Valid Course course) {
-        return courseRepository.findById(id).map(recordFound -> {
-            recordFound.setName(course.getName());
-            recordFound.setCategory(course.getCategory());
-            return courseRepository.save(recordFound);
-        });
+    public Course update(@NotNull @Positive Long id, @Valid Course course) {
+        return courseRepository.findById(id);
     }
 
     public boolean delete(@PathVariable @NotNull @Positive Long id) {
