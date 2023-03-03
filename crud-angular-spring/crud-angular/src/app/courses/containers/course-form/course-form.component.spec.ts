@@ -1,23 +1,42 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { ActivatedRoute } from '@angular/router'
 
-import { CourseFormComponent } from './course-form.component';
+import { CoursesService } from './../../services/courses.service'
+import { CourseFormComponent } from './course-form.component'
+import { FormBuilder, NonNullableFormBuilder } from '@angular/forms'
+
 
 describe('CourseFormComponent', () => {
-  let component: CourseFormComponent;
-  let fixture: ComponentFixture<CourseFormComponent>;
+  let component: CourseFormComponent
+  let fixture: ComponentFixture<CourseFormComponent>
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ CourseFormComponent ]
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ CourseFormComponent ],
+      providers: [
+        CoursesService,
+        FormBuilder,
+        { provide: MatSnackBar, userValue: {} },
+        { provide: ActivatedRoute, useValue: { snapshot: { data: [ { path: 'course' } ] } } }
+      ],
+      imports: [ HttpClientTestingModule ]
     })
-    .compileComponents();
+      .compileComponents()
+  }))
 
-    fixture = TestBed.createComponent(CourseFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CourseFormComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
+  it('should form', () => {
+    expect(component.form.setValue({ _id: "1", name: 'Angular', category: 'front-end' }))
+  })
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  it('should create component', () => {
+    expect(component).toBeTruthy()
+  })
+
+})
