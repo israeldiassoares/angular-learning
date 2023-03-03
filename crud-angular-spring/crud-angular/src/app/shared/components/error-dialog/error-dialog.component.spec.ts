@@ -1,23 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppMaterialModule } from './../../app-material/app-material.module'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
-import { ErrorDialogComponent } from './error-dialog.component';
+import { ErrorDialogComponent } from './error-dialog.component'
 
 describe('ErrorDialogComponent', () => {
-  let component: ErrorDialogComponent;
-  let fixture: ComponentFixture<ErrorDialogComponent>;
+  let component: ErrorDialogComponent
+  let fixture: ComponentFixture<ErrorDialogComponent>
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ErrorDialogComponent ]
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ ErrorDialogComponent ],
+      imports: [ AppMaterialModule ],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
+      ]
     })
-    .compileComponents();
+      .compileComponents()
 
-    fixture = TestBed.createComponent(ErrorDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(ErrorDialogComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})
