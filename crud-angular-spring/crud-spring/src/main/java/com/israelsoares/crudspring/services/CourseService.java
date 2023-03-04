@@ -6,6 +6,7 @@ import com.israelsoares.crudspring.repository.CourseRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,9 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     public Course update(@NotNull @Positive Long id, @Valid Course course) {
-        return courseRepository.findById(id);
+        return courseRepository.findById(id).orElseThrow( () -> new RecordNotFoundException(id));
     }
 
     public boolean delete(@PathVariable @NotNull @Positive Long id) {
